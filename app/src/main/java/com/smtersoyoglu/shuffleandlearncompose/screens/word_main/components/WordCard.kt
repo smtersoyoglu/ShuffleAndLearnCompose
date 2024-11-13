@@ -1,6 +1,5 @@
 package com.smtersoyoglu.shuffleandlearncompose.screens.word_main.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,13 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.smtersoyoglu.shuffleandlearncompose.R
+import coil.compose.AsyncImage
 import com.smtersoyoglu.shuffleandlearncompose.data.model.Word
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.EnglishTextColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor
@@ -89,8 +86,9 @@ fun WordCard(word: Word) {
             }
         }
 
-        Image(
-            painter = painterResource(id = word.imageUrl),
+        // Coil kullanarak resmi yükle
+        AsyncImage(
+            model = word.imageUrl,
             contentDescription = word.english,
             modifier = Modifier
                 .size(size = 180.dp)
@@ -99,18 +97,4 @@ fun WordCard(word: Word) {
             contentScale = ContentScale.Fit
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun WordCardPreview() {
-    WordCard(
-        word = Word(
-            1,
-            "Ördek",
-            "Duck",
-            R.drawable.duck_card,
-            "The duck is swimming in the pond.",
-        ),
-    )
 }
