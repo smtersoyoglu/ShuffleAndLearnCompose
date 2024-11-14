@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.smtersoyoglu.shuffleandlearncompose.navigation.WordNavGraph
 import com.smtersoyoglu.shuffleandlearncompose.screens.word_main.WordMainScreen
 import com.smtersoyoglu.shuffleandlearncompose.screens.word_main.WordViewModel
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.ShuffleAndLearnComposeTheme
@@ -28,11 +29,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ShuffleAndLearnComposeTheme {
-
-
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    WordMainScreen(modifier = Modifier.padding(innerPadding)
-                        , viewModel = wordViewModel)
+                   WordNavGraph(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

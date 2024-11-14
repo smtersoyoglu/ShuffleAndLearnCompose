@@ -1,5 +1,6 @@
 package com.smtersoyoglu.shuffleandlearncompose.screens.word_main.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,11 +33,12 @@ import com.smtersoyoglu.shuffleandlearncompose.ui.theme.EnglishTextColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor
 
 @Composable
-fun WordCard(word: Word) {
+fun WordCard(word: Word, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 12.dp)
-            .width(IntrinsicSize.Max),
+            .width(IntrinsicSize.Max)
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
 
