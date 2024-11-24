@@ -1,10 +1,10 @@
 package com.smtersoyoglu.shuffleandlearncompose.screens.word_main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smtersoyoglu.shuffleandlearncompose.data.model.Word
-import com.smtersoyoglu.shuffleandlearncompose.data.retrofit.WordService
+import com.smtersoyoglu.shuffleandlearncompose.data.repository.WordRepository
+import com.smtersoyoglu.shuffleandlearncompose.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,11 +14,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WordViewModel @Inject constructor(
-    private val wordService: WordService
+    private val repository: WordRepository
 ) : ViewModel() {
 
-    private val _wordList = MutableStateFlow<List<Word>>(emptyList())
-    val wordList: StateFlow<List<Word>> = _wordList.asStateFlow()
+    private val _wordState = MutableStateFlow<Resource<List<Word>>>(Resource.Loading())
+    val wordList: StateFlow<Resource<List<Word>>> = _wordState.asStateFlow()
 
     init {
         fetchWords()
@@ -27,13 +27,8 @@ class WordViewModel @Inject constructor(
 
     private fun fetchWords() {
         viewModelScope.launch {
-            try {
-                val words = wordService.getWords()
-                _wordList.value = words
-            } catch (e: Exception) {
-                // Hata yönetimi
-                Log.e("WordViewModel", "Error fetching words: ${e.message}")
-            }
+           _wordState.value = Resource.Loading()
+            _wordState.value = repository.getWords()
         }
     }
 }
