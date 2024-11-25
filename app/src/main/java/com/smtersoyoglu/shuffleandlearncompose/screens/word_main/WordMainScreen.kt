@@ -35,16 +35,14 @@ fun WordMainScreen(
     viewModel: WordViewModel = hiltViewModel(),
     navController: NavController
 ) {
-
     // ViewModel'den wordList'i alıyoruz ve collectAsState() ile gözlemliyoruz.
     val wordState by viewModel.wordList.collectAsState()
-
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(top = 56.dp),
+            .padding(top = 56.dp)
+            .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -58,7 +56,7 @@ fun WordMainScreen(
         )
 
         // Başlık altında 32dp boşluk bırakıyoruz
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         when (wordState) {
             is Resource.Loading -> {
