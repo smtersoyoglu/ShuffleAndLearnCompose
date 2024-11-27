@@ -21,10 +21,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ShuffleAndLearnComposeTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                   WordNavGraph(
-                       modifier = Modifier.padding(innerPadding))
-                }
+                WordNavGraph()
             }
         }
     }

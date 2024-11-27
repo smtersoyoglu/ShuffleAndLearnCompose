@@ -64,7 +64,7 @@ fun WordDetailContent(word: Word, onBack: () -> Unit) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 44.dp, start = 16.dp, end = 16.dp)
+                        .padding(start = 16.dp, end = 16.dp)
                 ) {
                     // Geri iconunu sola hizala
                     IconButton(

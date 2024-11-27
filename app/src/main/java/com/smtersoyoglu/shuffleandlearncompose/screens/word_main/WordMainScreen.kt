@@ -41,7 +41,7 @@ fun WordMainScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 56.dp)
+            .padding(top = 12.dp)
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
