@@ -14,7 +14,7 @@ val Pink40 = Color(0xFF7D5260)
 val teal_650 = Color(0xFF5196A2)
 
 val BackgroundColor = Color(0xFFF3F4F6)
-val HeaderColor = Color(0xFF3F51B5)
+val HeaderColor = Color(0xFF5196A2)
 val CardBackgroundColor = Color(0xFFFAF9F6)
 val TurkishTextColor = Color(0xFF424242)
 val EnglishTextColor = Color(0xFFE5C265) // veya Color(0xFF43A047) yeşil olarak

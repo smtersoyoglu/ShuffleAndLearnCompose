@@ -28,12 +28,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.smtersoyoglu.shuffleandlearncompose.data.model.Word
+import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.EnglishTextColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor
 
 @Composable
-fun WordCard(word: Word, onClick: () -> Unit) {
+fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 12.dp)
@@ -62,7 +62,7 @@ fun WordCard(word: Word, onClick: () -> Unit) {
 
                 // Turkish translation text
                 Text(
-                    text = word.translation,
+                    text = wordItem.translation,
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
@@ -76,7 +76,7 @@ fun WordCard(word: Word, onClick: () -> Unit) {
 
                 // English word text
                 Text(
-                    text = word.english,
+                    text = wordItem.english,
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 28.sp,
@@ -90,8 +90,8 @@ fun WordCard(word: Word, onClick: () -> Unit) {
 
         // Coil kullanarak resmi yükle
         AsyncImage(
-            model = word.imageUrl,
-            contentDescription = word.english,
+            model = wordItem.imageUrl,
+            contentDescription = wordItem.english,
             modifier = Modifier
                 .size(size = 180.dp)
                 .offset(y = (-50).dp)

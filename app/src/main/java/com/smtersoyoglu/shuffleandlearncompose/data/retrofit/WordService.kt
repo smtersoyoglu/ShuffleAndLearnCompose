@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface WordService {
     @GET("words.json")
-    suspend fun getWords() : List<Word>
+    suspend fun getWords() : Word
 }

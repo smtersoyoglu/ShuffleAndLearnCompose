@@ -2,7 +2,7 @@ package com.smtersoyoglu.shuffleandlearncompose.screens.word_main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.smtersoyoglu.shuffleandlearncompose.data.model.Word
+import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.data.repository.WordRepository
 import com.smtersoyoglu.shuffleandlearncompose.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,8 +17,8 @@ class WordViewModel @Inject constructor(
     private val repository: WordRepository
 ) : ViewModel() {
 
-    private val _wordState = MutableStateFlow<Resource<List<Word>>>(Resource.Loading())
-    val wordList: StateFlow<Resource<List<Word>>> = _wordState.asStateFlow()
+    private val _wordState = MutableStateFlow<Resource<List<WordItem>>>(Resource.Loading())
+    val wordList: StateFlow<Resource<List<WordItem>>> = _wordState.asStateFlow()
 
     init {
         fetchWords()

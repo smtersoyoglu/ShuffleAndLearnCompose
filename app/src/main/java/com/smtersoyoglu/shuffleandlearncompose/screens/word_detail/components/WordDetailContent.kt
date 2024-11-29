@@ -34,19 +34,19 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.smtersoyoglu.shuffleandlearncompose.data.model.Word
+import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.EnglishTextColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.SentenceTestColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.teal_650
 
 @Composable
-fun WordDetailContent(word: Word, onBack: () -> Unit) {
+fun WordDetailContent(wordItem: WordItem, onBack: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize()
     )
     {
-        word.let {
+        wordItem.let {
             // Sağ taraftaki renk bloğu
             Box(
                 modifier = Modifier
@@ -108,8 +108,8 @@ fun WordDetailContent(word: Word, onBack: () -> Unit) {
                 }
                 Spacer(modifier = Modifier.height(72.dp))
                 AsyncImage(
-                    model = word.imageUrl,
-                    contentDescription = word.english,
+                    model = wordItem.imageUrl,
+                    contentDescription = wordItem.english,
                     modifier = Modifier
                         .height(250.dp)
                         .fillMaxWidth()
@@ -119,7 +119,7 @@ fun WordDetailContent(word: Word, onBack: () -> Unit) {
 
                 Spacer(modifier = Modifier.height(66.dp))
                 Text(
-                    text = word.translation,
+                    text = wordItem.translation,
                     style = MaterialTheme.typography.headlineMedium.copy(
                         fontWeight = FontWeight.Bold,
                         color = TurkishTextColor,
@@ -129,7 +129,7 @@ fun WordDetailContent(word: Word, onBack: () -> Unit) {
                 Spacer(modifier = Modifier.height(4.dp)) // 6.dp uzaklık
 
                 Text(
-                    text = word.english,
+                    text = wordItem.english,
                     style = MaterialTheme.typography.headlineLarge.copy(
                         fontWeight = FontWeight.Bold,
                         color = EnglishTextColor,
@@ -138,7 +138,7 @@ fun WordDetailContent(word: Word, onBack: () -> Unit) {
                 )
                 Spacer(modifier = Modifier.height(4.dp)) // 6.dp uzaklık
                 Text(
-                    text = word.sentence,
+                    text = wordItem.sentence,
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.SemiBold,
                         color = SentenceTestColor,

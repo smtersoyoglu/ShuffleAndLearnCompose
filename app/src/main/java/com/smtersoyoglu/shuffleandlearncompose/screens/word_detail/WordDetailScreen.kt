@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.smtersoyoglu.shuffleandlearncompose.data.model.Word
+import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.screens.word_detail.components.WordDetailContent
 import com.smtersoyoglu.shuffleandlearncompose.util.Resource
 
@@ -43,8 +43,8 @@ fun WordDetailScreen(
             }
 
             is Resource.Success -> {
-                val word = (wordState as Resource.Success<Word>).data
-                word?.let { WordDetailContent(word = it, onBack = { navController.popBackStack() }) }
+                val word = (wordState as Resource.Success<WordItem>).data
+                word?.let { WordDetailContent(wordItem = it, onBack = { navController.popBackStack() }) }
             }
 
             is Resource.Error -> {

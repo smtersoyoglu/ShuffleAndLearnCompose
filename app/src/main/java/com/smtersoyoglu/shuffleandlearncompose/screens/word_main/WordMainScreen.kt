@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.smtersoyoglu.shuffleandlearncompose.data.model.Word
+import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.navigation.Screen
 import com.smtersoyoglu.shuffleandlearncompose.screens.word_main.components.WordCard
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.HeaderColor
@@ -47,7 +47,7 @@ fun WordMainScreen(
     ) {
         Text(
             text = "Word Cards",
-            style = MaterialTheme.typography.headlineLarge.copy(
+            style = MaterialTheme.typography.displaySmall.copy(
                 fontWeight = FontWeight.Bold,
                 color = HeaderColor
             ),
@@ -55,8 +55,7 @@ fun WordMainScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Başlık altında 32dp boşluk bırakıyoruz
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         when (wordState) {
             is Resource.Loading -> {
@@ -71,9 +70,9 @@ fun WordMainScreen(
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.background)
                 ) {
-                    val wordList = (wordState as Resource.Success<List<Word>>).data
+                    val wordList = (wordState as Resource.Success<List<WordItem>>).data
                     items(wordList ?: emptyList()) { word ->
-                        WordCard(word = word) {
+                        WordCard(wordItem = word) {
                             //navController.navigate("wordDetailScreen/${word.id}")
                             navController.navigate(Screen.WordDetailScreen.createRoute(word.id))
                         }
