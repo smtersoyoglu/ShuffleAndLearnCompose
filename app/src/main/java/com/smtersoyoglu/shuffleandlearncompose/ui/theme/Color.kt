@@ -19,5 +19,5 @@ val CardBackgroundColor = Color(0xFFFAF9F6)
 val TurkishTextColor = Color(0xFF424242)
 val EnglishTextColor = Color(0xFFE5C265) // veya Color(0xFF43A047) yeşil olarak
 val SentenceTestColor = Color(0xFF424242)
-val BottomNavBackgroundColor = Color(0xFF3F51B5) // veya Color(0xFF512DA8) koyu mor
+val BottomNavBackgroundColor = Color(0xFF5196A2) // veya Color(0xFF512DA8) koyu mor
 val BottomNavSelectedIconColor = Color(0xFFFFFFFF)
