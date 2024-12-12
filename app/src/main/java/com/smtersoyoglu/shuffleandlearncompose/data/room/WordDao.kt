@@ -6,19 +6,24 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WordDao {
-    @Query("SELECT * FROM words WHERE isLearned = 0")
-    suspend fun getUnlearnedWords(): List<WordItem> // Öğrenilmemiş kelimeleri getir
-
-    @Query("SELECT * FROM words WHERE isLearned = 1")
-    suspend fun getLearnedWords(): List<WordItem>  // Öğrenilmiş kelimeleri getir
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertWords(words: List<WordItem>) // Kelimeleri ekle
+    suspend fun insertWords(words: List<WordItem>)
+
+    @Query("SELECT * FROM words WHERE id = :id LIMIT 1")
+    suspend fun getWordById(id: Int): WordItem?
+
+    @Query("SELECT * FROM words WHERE isLearned = 0")
+    fun getUnlearnedWords(): Flow<List<WordItem>>
+
+    @Query("SELECT * FROM words WHERE isLearned = 1")
+    fun getLearnedWords(): Flow<List<WordItem>>
 
     @Update
-    suspend fun updateWord(word: WordItem) // Kelime güncelle
-
+    suspend fun updateWord(word: WordItem) // Kelimenin isLearned durumunu güncelleriz
 }
+

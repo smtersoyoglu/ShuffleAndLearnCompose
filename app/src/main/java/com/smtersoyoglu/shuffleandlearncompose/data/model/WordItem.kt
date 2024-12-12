@@ -5,12 +5,11 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 @Entity(tableName = "words")
 data class WordItem(
-    @PrimaryKey
-    val id: Int,
-    val translation: String,
-    val english: String,
+    @PrimaryKey val id: Int,
+    val translation: String = "",
+    val english: String = "",
     @SerializedName("image_url")
-    val imageUrl: String,
-    val sentence: String,
-    val isLearned: Boolean = false
+    val imageUrl: String = "",
+    val sentence: String = "",
+    var isLearned: Boolean = false
 )
