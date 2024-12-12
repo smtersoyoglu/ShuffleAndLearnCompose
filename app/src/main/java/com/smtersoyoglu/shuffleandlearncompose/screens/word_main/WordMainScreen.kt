@@ -18,7 +18,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -35,8 +34,7 @@ fun WordMainScreen(
     viewModel: WordViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    // ViewModel'den wordList'i alıyoruz ve collectAsState() ile gözlemliyoruz.
-    val wordState by viewModel.wordList.collectAsState()
+    val wordState by viewModel.unlearnedWords.collectAsState()
 
     Column(
         modifier = Modifier
@@ -58,36 +56,24 @@ fun WordMainScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         when (wordState) {
-            is Resource.Loading -> {
-                // Yükleniyor ekranı
-                CircularProgressIndicator()
-            }
-
+            is Resource.Loading -> CircularProgressIndicator()
             is Resource.Success -> {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.background)
-                ) {
-                    val wordList = (wordState as Resource.Success<List<WordItem>>).data
-                    items(wordList ?: emptyList()) { word ->
-                        WordCard(wordItem = word) {
-                            //navController.navigate("wordDetailScreen/${word.id}")
-                            navController.navigate(Screen.WordDetailScreen.createRoute(word.id))
+                val words = (wordState as Resource.Success<List<WordItem>>).data
+                if (words != null) {
+                    if (words.isEmpty()) {
+                        Text("No words available")
+                    } else {
+                        LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+                            items(words) { word ->
+                                WordCard(wordItem = word) {
+                                    navController.navigate(Screen.WordDetailScreen.createRoute(word.id,false))
+                                }
+                            }
                         }
                     }
                 }
             }
-
-            is Resource.Error -> {
-                // Hata ekranı
-                Text(
-                    text = (wordState as Resource.Error).message ?: "An error occurred",
-                    color = Color.Red,
-                    textAlign = TextAlign.Center
-                )
-            }
+            is Resource.Error -> Text((wordState as Resource.Error).message ?: "An error occurred")
         }
     }
 }
