@@ -84,17 +84,21 @@ fun WordNavGraph(modifier: Modifier = Modifier) {
 
             composable(
                 route = Screen.WordDetailScreen.route,
-                arguments = listOf(navArgument("wordId") { type = NavType.IntType }),
+                arguments = listOf(
+                    navArgument("wordId") { type = NavType.IntType },
+                    navArgument("isLearned") { type = NavType.BoolType }),
                 enterTransition = ::slideInToLeft,
                 exitTransition = ::slideOutToLeft,
                 popEnterTransition = ::slideInToRight,
                 popExitTransition = ::slideOutToRight
             ) { backStackEntry ->
                 val wordId = backStackEntry.arguments?.getInt("wordId") ?: 0
+                val isLearned = backStackEntry.arguments?.getBoolean("isLearned") ?: false
                 WordDetailScreen(
                     navController = navController,
                     wordId = wordId,
-                    viewModel = hiltViewModel()
+                    viewModel = hiltViewModel(),
+                    isLearned = isLearned
                 )
             }
         }
