@@ -1,10 +1,12 @@
 package com.smtersoyoglu.shuffleandlearncompose.data.repository
 
+import android.util.Log
 import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.data.retrofit.WordService
 import com.smtersoyoglu.shuffleandlearncompose.data.room.WordDao
 import com.smtersoyoglu.shuffleandlearncompose.util.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class WordRepository @Inject constructor(
@@ -37,22 +39,25 @@ class WordRepository @Inject constructor(
 
     // Learned kelimeleri çekmek için bir metod
     fun getLearnedWords(): Flow<List<WordItem>> {
-        return wordDao.getLearnedWords() // Bu query ile learned kelimeleri çekeceğiz
+        return wordDao.getLearnedWords().onEach { learnedWords ->
+            Log.d("WordRepository", "Flow Fetched Learned Words: $learnedWords")
+        }
     }
 
-    // Kelimeyi ID ile al
+    // Kelimeyi ID ile al, ID'ye göre bir kelimeyi döndürür.
     suspend fun getWordById(id: Int): WordItem? {
         return wordDao.getWordById(id)
     }
 
-    // Kelimeyi güncelle
-    suspend fun updateWord(word: WordItem) {
-        wordDao.updateWord(word) // Room'da güncelle
+    suspend fun markWordAsLearned(word: WordItem) {
+        wordDao.updateLearnedStatus(word.id, true)
+        val updatedWord = wordDao.getWordById(word.id)
+        Log.d("WordRepository", "Updated Word in DB: $updatedWord")
     }
 
-    // Kelimeyi öğrenildi olarak işaretle
-    suspend fun markWordAsLearned(word: WordItem) {
-        wordDao.updateWord(word.copy(isLearned = true)) // Room'da güncelle
+
+    suspend fun markWordAsUnlearned(word: WordItem) {
+        wordDao.updateLearnedStatus(word.id, false)
     }
 
 }
