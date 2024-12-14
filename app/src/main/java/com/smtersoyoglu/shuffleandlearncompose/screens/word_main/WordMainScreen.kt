@@ -23,18 +23,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.navigation.Screen
 import com.smtersoyoglu.shuffleandlearncompose.screens.word_main.components.WordCard
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.HeaderColor
-import com.smtersoyoglu.shuffleandlearncompose.util.Resource
 
 @Composable
 fun WordMainScreen(
     viewModel: WordViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val wordState by viewModel.unlearnedWords.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -55,25 +53,18 @@ fun WordMainScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        when (wordState) {
-            is Resource.Loading -> CircularProgressIndicator()
-            is Resource.Success -> {
-                val words = (wordState as Resource.Success<List<WordItem>>).data
-                if (words != null) {
-                    if (words.isEmpty()) {
-                        Text("No words available")
-                    } else {
-                        LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-                            items(words) { word ->
-                                WordCard(wordItem = word) {
-                                    navController.navigate(Screen.WordDetailScreen.createRoute(word.id,false))
-                                }
-                            }
-                        }
+        when{
+            uiState.isLoading -> CircularProgressIndicator()
+            uiState.error != null -> Text(uiState.error!!)
+            uiState.words.isEmpty() -> Text("No words available")
+            else -> LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+                items(uiState.words) { word ->
+                    WordCard(wordItem = word) {
+                        navController.navigate(Screen.WordDetailScreen.createRoute(word.id))
                     }
                 }
             }
-            is Resource.Error -> Text((wordState as Resource.Error).message ?: "An error occurred")
+
         }
     }
 }
