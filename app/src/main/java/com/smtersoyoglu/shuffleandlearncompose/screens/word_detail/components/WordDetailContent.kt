@@ -41,19 +41,23 @@ import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.teal_650
 
 @Composable
-fun WordDetailContent(wordItem: WordItem, onBack: () -> Unit) {
+fun WordDetailContent(
+    wordItem: WordItem,
+    onLearned: () -> Unit, // Öğrenildi butonu için callback
+    onBack: () -> Unit, // Geri dönüş işlemi
+    isLearned: Boolean // Kelimenin öğrenildi durumu
+) {
     Box(
         modifier = Modifier.fillMaxSize()
-    )
-    {
+    ) {
         wordItem.let {
             // Sağ taraftaki renk bloğu
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(0.5f) // Ekranın sağ yarısını kaplar
-                    .fillMaxHeight(0.5f) // Ekranın yarısını kaplar)
-                    .align(Alignment.TopEnd) // Sağ tarafta hizala
-                    .background(Color(0xFF5196A2)) // Arka plan rengi
+                    .fillMaxWidth(0.5f)
+                    .fillMaxHeight(0.5f)
+                    .align(Alignment.TopEnd)
+                    .background(Color(0xFF5196A2))
             )
             Column(
                 modifier = Modifier
@@ -126,7 +130,7 @@ fun WordDetailContent(wordItem: WordItem, onBack: () -> Unit) {
                         fontSize = 30.sp
                     )
                 )
-                Spacer(modifier = Modifier.height(4.dp)) // 6.dp uzaklık
+                Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
                     text = wordItem.english,
@@ -136,7 +140,7 @@ fun WordDetailContent(wordItem: WordItem, onBack: () -> Unit) {
                         fontSize = 36.sp
                     )
                 )
-                Spacer(modifier = Modifier.height(4.dp)) // 6.dp uzaklık
+                Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = wordItem.sentence,
                     style = MaterialTheme.typography.titleLarge.copy(
@@ -148,15 +152,19 @@ fun WordDetailContent(wordItem: WordItem, onBack: () -> Unit) {
                     textAlign = TextAlign.Center
                 )
                 Button(
-                    onClick = onBack,
-                    colors = ButtonDefaults.buttonColors(teal_650),
+                    onClick = {
+                        onLearned() // Öğrenildi işlemini çağır
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isLearned) Color.Red else teal_650
+                    ),
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
                         .padding(vertical = 16.dp),
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(
-                        text = "Learned",
+                        text = if (isLearned) "Learned" else "Learn", // Burada metni kontrol ediyoruz
                         color = Color.White,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 24.sp,

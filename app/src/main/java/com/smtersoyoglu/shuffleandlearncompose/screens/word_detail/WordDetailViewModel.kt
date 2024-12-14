@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.data.repository.WordRepository
-import com.smtersoyoglu.shuffleandlearncompose.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,24 +16,50 @@ class WordDetailViewModel @Inject constructor(
     private val wordRepository: WordRepository
 ) : ViewModel() {
 
-    private val _wordState = MutableStateFlow<Resource<WordItem>>(Resource.Loading())
-    val wordState: StateFlow<Resource<WordItem>> = _wordState.asStateFlow()
+    private val _uiState = MutableStateFlow(WordDetailState())
+    val uiState: StateFlow<WordDetailState> = _uiState.asStateFlow()
 
+    // Kelimeyi ID ile Room'dan çekiyoruz
     fun fetchWordById(wordId: Int) {
         viewModelScope.launch {
-            _wordState.value = Resource.Loading() // Yüklenme durumu
-            val wordsResponse = wordRepository.getWords()
-
-            if (wordsResponse is Resource.Success) {
-                val word = wordsResponse.data?.find { it.id == wordId }
+            try {
+                updateState(isLoading = true)
+                val word = wordRepository.getWordById(wordId)
                 if (word != null) {
-                    _wordState.value = Resource.Success(word)
+                    updateState(word = word, isLoading = false)
                 } else {
-                    _wordState.value = Resource.Error("Word not found")
+                    updateState(error = "Word not found", isLoading = false)
                 }
-            } else if (wordsResponse is Resource.Error) {
-                _wordState.value = Resource.Error(wordsResponse.message ?: "An error occurred")
+            } catch (e: Exception) {
+                updateState(error = "Error fetching word: ${e.message}", isLoading = false)
             }
         }
+    }
+
+    fun toggleLearnedStatus(word: WordItem) {
+        viewModelScope.launch {
+            try {
+                // Eğer kelime öğrenilmişse, onu unlearned yap
+                if (word.isLearned) {
+                    wordRepository.markWordAsUnlearned(word)
+                } else {
+                    // Eğer kelime öğrenilmemişse, onu learned yap
+                    wordRepository.markWordAsLearned(word)
+                }
+                // Yeni durumu yansıtan bir kopya oluştur ve durumu güncelle
+                val updatedWord = word.copy(isLearned = !word.isLearned)
+                updateState(word = updatedWord)
+            } catch (e: Exception) {
+                updateState(error = "Failed to update word: ${e.message}")
+            }
+        }
+    }
+
+    private fun updateState(
+        isLoading: Boolean = _uiState.value.isLoading,
+        word: WordItem? = _uiState.value.word,
+        error: String? = _uiState.value.error
+    ) {
+        _uiState.value = WordDetailState(isLoading, word, error)
     }
 }

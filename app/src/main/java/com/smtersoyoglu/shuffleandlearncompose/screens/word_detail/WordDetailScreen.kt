@@ -14,9 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.screens.word_detail.components.WordDetailContent
-import com.smtersoyoglu.shuffleandlearncompose.util.Resource
 
 @Composable
 fun WordDetailScreen(
@@ -24,32 +22,38 @@ fun WordDetailScreen(
     wordId: Int,
     viewModel: WordDetailViewModel = hiltViewModel()
 ) {
-    val wordState by viewModel.wordState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
-    // ViewModel'den ilgili kelimeyi çek
     LaunchedEffect(wordId) {
         viewModel.fetchWordById(wordId)
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
-        when (wordState) {
-            is Resource.Loading -> {
+        when {
+            uiState.isLoading -> {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
 
-            is Resource.Success -> {
-                val word = (wordState as Resource.Success<WordItem>).data
-                word?.let { WordDetailContent(wordItem = it, onBack = { navController.popBackStack() }) }
+            uiState.word != null -> {
+                uiState.word?.let { word ->
+                    WordDetailContent(
+                        wordItem = word,
+                        onLearned = {
+                            viewModel.toggleLearnedStatus(word)
+                        },
+                        onBack = { navController.popBackStack() },
+                        isLearned = word.isLearned
+                    )
+                }
             }
 
-            is Resource.Error -> {
+            uiState.error != null -> {
                 Text(
-                    text = (wordState as Resource.Error).message ?: "An error occurred",
+                    text = uiState.error ?: "An error occurred",
                     color = Color.Red,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.align(Alignment.Center)
