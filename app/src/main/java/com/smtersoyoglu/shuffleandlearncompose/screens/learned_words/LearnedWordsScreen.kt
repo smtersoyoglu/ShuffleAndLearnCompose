@@ -42,8 +42,8 @@ fun LearnedWordsScreen(
         learnedWordsState.learnedWords.isNotEmpty() -> {
             LazyVerticalGrid(columns = GridCells.Fixed(2)) {
                 items(learnedWordsState.learnedWords) { word ->
-                    WordCard(wordItem = word) {
-                        navController.navigate(Screen.WordDetailScreen.createRoute(word.id, word.isLearned))
+                    WordCard(wordItem = word) { // word_main'den alıyoruz tasarim olarak WordMain ile LearnedScreen ayni oldugundan dolayi.
+                        navController.navigate(Screen.WordDetailScreen.createRoute(word.id))
                     }
                 }
             }

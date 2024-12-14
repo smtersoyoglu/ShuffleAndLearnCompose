@@ -73,9 +73,8 @@ fun BottomNavBar(navController: NavController, items: List<BottomNavItem>) {
                 onClick = {
                     if (!isSelected) {
                         navController.navigate(item.route) {
-                            popUpTo(navController.graph.startDestinationId) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
+                            popUpTo(item.route) { inclusive = true } // Hedef ekranı tamamen yeniden yükle
+                            launchSingleTop = true // Aynı ekran tekrar yığın içinde alınmaz
                         }
                     }
                 },

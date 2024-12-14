@@ -43,7 +43,7 @@ fun WordNavGraph(modifier: Modifier = Modifier) {
         ),
         BottomNavItem(
             route = Screen.WordGameScreen.route,
-            title = "Game", // Sekme başlığı
+            title = "Game",
             icon = Icons.Default.PlayArrow
         )
     )
@@ -85,20 +85,17 @@ fun WordNavGraph(modifier: Modifier = Modifier) {
             composable(
                 route = Screen.WordDetailScreen.route,
                 arguments = listOf(
-                    navArgument("wordId") { type = NavType.IntType },
-                    navArgument("isLearned") { type = NavType.BoolType }),
+                    navArgument("wordId") { type = NavType.IntType }),
                 enterTransition = ::slideInToLeft,
                 exitTransition = ::slideOutToLeft,
                 popEnterTransition = ::slideInToRight,
                 popExitTransition = ::slideOutToRight
             ) { backStackEntry ->
                 val wordId = backStackEntry.arguments?.getInt("wordId") ?: 0
-                val isLearned = backStackEntry.arguments?.getBoolean("isLearned") ?: false
                 WordDetailScreen(
                     navController = navController,
                     wordId = wordId,
                     viewModel = hiltViewModel(),
-                    isLearned = isLearned
                 )
             }
         }

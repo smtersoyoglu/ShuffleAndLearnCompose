@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
 import kotlinx.coroutines.flow.Flow
 
@@ -23,7 +22,7 @@ interface WordDao {
     @Query("SELECT * FROM words WHERE isLearned = 1")
     fun getLearnedWords(): Flow<List<WordItem>>
 
-    @Update
-    suspend fun updateWord(word: WordItem) // Kelimenin isLearned durumunu güncelleriz
+    @Query("UPDATE words SET isLearned = :isLearned WHERE id = :id")
+    suspend fun updateLearnedStatus(id: Int, isLearned: Boolean) // Kelimenin isLearned durumunu güncelleriz
 }
 
