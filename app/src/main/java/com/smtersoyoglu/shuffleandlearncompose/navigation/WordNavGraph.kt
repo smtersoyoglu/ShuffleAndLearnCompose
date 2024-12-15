@@ -17,6 +17,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.smtersoyoglu.shuffleandlearncompose.navigation.bottomnav.BottomNavBar
@@ -50,7 +51,12 @@ fun WordNavGraph(modifier: Modifier = Modifier) {
 
     Scaffold(
         bottomBar = {
-            BottomNavBar(navController = navController, items = bottomNavItems)
+            // Mevcut rota bilgisini kontrol et
+            val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+            // Sadece ana ekranlar için BottomNavBar göster
+            if (currentRoute in bottomNavItems.map { it.route }) {
+                BottomNavBar(navController = navController, items = bottomNavItems)
+            }
         }
     ) { innerPadding ->
         NavHost(

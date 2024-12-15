@@ -19,6 +19,11 @@ class WordDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(WordDetailState())
     val uiState: StateFlow<WordDetailState> = _uiState.asStateFlow()
 
+    private val _snackbarMessage = MutableStateFlow<String?>(null)
+    val snackbarMessage: StateFlow<String?> = _snackbarMessage.asStateFlow()
+
+
+
     // Kelimeyi ID ile Room'dan çekiyoruz
     fun fetchWordById(wordId: Int) {
         viewModelScope.launch {
@@ -39,12 +44,14 @@ class WordDetailViewModel @Inject constructor(
     fun toggleLearnedStatus(word: WordItem) {
         viewModelScope.launch {
             try {
-                // Eğer kelime öğrenilmişse, onu unlearned yap
+                // Eğer kelime öğrenilmişse(Buton'da Learned yazıyorsa), onu ögrenilmemiş yap(Butona basilinca unlearned yap)
                 if (word.isLearned) {
                     wordRepository.markWordAsUnlearned(word)
+                    showSnackbarMessage("Kelime Öğrenilenler Listesinden Çıkarıldı")
                 } else {
-                    // Eğer kelime öğrenilmemişse, onu learned yap
+                    // Eğer kelime öğrenilmemişse(Buton'da Learn yazıyorsa), onu ögrenilmis (Butona basilinca learned yap)
                     wordRepository.markWordAsLearned(word)
+                    showSnackbarMessage("Kelime Öğrenilenler Listesine Eklendi")
                 }
                 // Yeni durumu yansıtan bir kopya oluştur ve durumu güncelle
                 val updatedWord = word.copy(isLearned = !word.isLearned)
@@ -53,6 +60,14 @@ class WordDetailViewModel @Inject constructor(
                 updateState(error = "Failed to update word: ${e.message}")
             }
         }
+    }
+
+    private fun showSnackbarMessage(message: String) {
+        _snackbarMessage.value = message
+    }
+
+    fun clearSnackbarMessage() {
+        _snackbarMessage.value = null
     }
 
     private fun updateState(
