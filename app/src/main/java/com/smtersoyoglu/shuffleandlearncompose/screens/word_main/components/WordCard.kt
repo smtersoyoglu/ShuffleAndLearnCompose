@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.EnglishTextColor
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor
 
 @Composable
@@ -60,13 +62,13 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
             ) {
                 Spacer(modifier = Modifier.height(140.dp))
 
-                // Turkish translation text
                 Text(
                     text = wordItem.translation,
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
-                        color = TurkishTextColor
+                        color = TurkishTextColor,
+                        fontFamily = FredokaRegular
                     ),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center
@@ -74,13 +76,14 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                // English word text
                 Text(
                     text = wordItem.english,
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 28.sp,
-                        color = EnglishTextColor
+                        color = EnglishTextColor,
+                        fontFamily = FredokaSemiBold
+
                     ),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center
@@ -88,7 +91,7 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
             }
         }
 
-        // Coil kullanarak resmi yükle
+        // Coil kullanarak resmi yükleme
         AsyncImage(
             model = wordItem.imageUrl,
             contentDescription = wordItem.english,

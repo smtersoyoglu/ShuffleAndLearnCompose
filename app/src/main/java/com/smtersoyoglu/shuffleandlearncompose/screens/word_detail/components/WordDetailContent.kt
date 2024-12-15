@@ -36,6 +36,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.EnglishTextColor
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaBold
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.SentenceTestColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.teal_650
@@ -105,12 +108,13 @@ fun WordDetailContent(
                         },
                         style = MaterialTheme.typography.headlineLarge.copy(
                             fontWeight = FontWeight.Bold,
-                            color = ButtonDefaults.buttonColors(teal_650).containerColor
+                            color = ButtonDefaults.buttonColors(teal_650).containerColor,
+                            fontFamily = FredokaBold
                         ),
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
-                Spacer(modifier = Modifier.height(72.dp))
+                Spacer(modifier = Modifier.height(94.dp))
                 AsyncImage(
                     model = wordItem.imageUrl,
                     contentDescription = wordItem.english,
@@ -127,6 +131,7 @@ fun WordDetailContent(
                     style = MaterialTheme.typography.headlineMedium.copy(
                         fontWeight = FontWeight.Bold,
                         color = TurkishTextColor,
+                        fontFamily = FredokaRegular,
                         fontSize = 30.sp
                     )
                 )
@@ -137,6 +142,7 @@ fun WordDetailContent(
                     style = MaterialTheme.typography.headlineLarge.copy(
                         fontWeight = FontWeight.Bold,
                         color = EnglishTextColor,
+                        fontFamily = FredokaSemiBold,
                         fontSize = 36.sp
                     )
                 )
@@ -146,6 +152,7 @@ fun WordDetailContent(
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.SemiBold,
                         color = SentenceTestColor,
+                        fontFamily = FredokaSemiBold,
                         fontSize = 28.sp
                     ),
                     modifier = Modifier.padding(horizontal = 16.dp),
@@ -153,7 +160,7 @@ fun WordDetailContent(
                 )
                 Button(
                     onClick = {
-                        onLearned() // Öğrenildi işlemini çağır
+                        onLearned()
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (isLearned) Color.Red else teal_650
@@ -164,10 +171,11 @@ fun WordDetailContent(
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(
-                        text = if (isLearned) "Learned" else "Learn", // Burada metni kontrol ediyoruz
+                        text = if (isLearned) "Learned" else "Learn",
                         color = Color.White,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 24.sp,
+                        fontFamily = FredokaSemiBold,
                         modifier = Modifier.padding(6.dp)
                     )
                 }

@@ -36,7 +36,6 @@ class WordViewModel @Inject constructor(
                 updateState(error = "Error fetching words: ${e.message}")
             }
 
-
         }
     }
 

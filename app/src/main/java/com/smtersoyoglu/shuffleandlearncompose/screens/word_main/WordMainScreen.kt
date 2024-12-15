@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.smtersoyoglu.shuffleandlearncompose.navigation.Screen
 import com.smtersoyoglu.shuffleandlearncompose.screens.word_main.components.WordCard
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaBold
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.HeaderColor
 
 @Composable
@@ -45,7 +46,8 @@ fun WordMainScreen(
             text = "Word Cards",
             style = MaterialTheme.typography.displaySmall.copy(
                 fontWeight = FontWeight.Bold,
-                color = HeaderColor
+                color = HeaderColor,
+                fontFamily = FredokaBold
             ),
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
@@ -64,7 +66,6 @@ fun WordMainScreen(
                     }
                 }
             }
-
         }
     }
 }
