@@ -14,7 +14,7 @@ class WordRepository @Inject constructor(
     private val wordDao: WordDao // Room ile veritabanı işlemleri
 ) {
     // Kelimeleri Retrofit'ten alıp Room veritabanına kaydediyoruz
-    suspend fun getWords(): Resource<List<WordItem>> {
+    suspend fun fetchAndSaveWords(): Resource<List<WordItem>> {
         return try {
             val response = wordService.getWords() // API'den kelimeleri al
             val cleanedWords = response.map { wordItem ->
@@ -32,8 +32,13 @@ class WordRepository @Inject constructor(
         }
     }
 
+    // Tüm kelimeleri al
+    fun getAllWords(): Flow<List<WordItem>> {
+        return wordDao.getAllWords()
+    }
+
     // Öğrenilmemiş kelimeleri al
-    fun getUnlearnedWordsFlow(): Flow<List<WordItem>> {
+    fun getUnlearnedWords(): Flow<List<WordItem>> {
         return wordDao.getUnlearnedWords()
     }
 

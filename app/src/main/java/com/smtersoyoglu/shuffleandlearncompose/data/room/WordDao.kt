@@ -13,6 +13,9 @@ interface WordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWords(words: List<WordItem>)
 
+    @Query("SELECT * FROM words")
+    fun getAllWords(): Flow<List<WordItem>>
+
     @Query("SELECT * FROM words WHERE id = :id LIMIT 1")
     suspend fun getWordById(id: Int): WordItem?
 
