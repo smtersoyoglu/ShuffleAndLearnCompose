@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class WordGameViewModel @Inject constructor(
     private val wordRepository: WordRepository
-) : ViewModel(){
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(WordGameUiState())
     val uiState: StateFlow<WordGameUiState> = _uiState
@@ -25,7 +25,6 @@ class WordGameViewModel @Inject constructor(
     init {
         startTimer()
         fetchWords()
-
     }
 
     private fun fetchWords() {
@@ -43,6 +42,19 @@ class WordGameViewModel @Inject constructor(
         }
     }
 
+    fun checkAnswer(userAnswer: String) {
+        val currentWord = _uiState.value.currentWord ?: return
+        val isCorrect = userAnswer.equals(currentWord.english, ignoreCase = true)
+
+        _uiState.update {
+            it.copy(
+                correctCount = if (isCorrect) it.correctCount + 1 else it.correctCount,
+                incorrectCount = if (!isCorrect) it.incorrectCount + 1 else it.incorrectCount,
+                currentWord = it.wordList.getOrNull(it.wordList.indexOf(currentWord) + 1)
+            )
+        }
+    }
+
 
     private fun startTimer() {
         timerJob?.cancel()
@@ -51,9 +63,23 @@ class WordGameViewModel @Inject constructor(
                 _uiState.update { it.copy(timer = time) }
                 delay(1000)
             }
+            _uiState.update { it.copy(isGameOver = true) }
         }
-        _uiState.update { it.copy(isGameOver = true) }
     }
 
+    fun resetGame() {
+        _uiState.update {
+            it.copy(
+                wordList = emptyList(), // Eğer kelime listesi sıfırlanacaksa
+                currentWord = null,
+                timer = 60, // Timer'ı sıfırla
+                correctCount = 0,
+                incorrectCount = 0,
+                isGameOver = false
+            )
+        }
+        fetchWords() // Kelimeleri yeniden al
+        startTimer() // Zamanlayıcıyı yeniden başlat
+    }
 
 }
