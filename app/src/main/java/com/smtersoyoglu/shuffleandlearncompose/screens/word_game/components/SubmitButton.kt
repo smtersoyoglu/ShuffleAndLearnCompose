@@ -20,14 +20,17 @@ fun SubmitButton(onClick: () -> Unit) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(teal_650),
-        modifier = Modifier.fillMaxWidth(0.5f)
+        modifier = Modifier
+            .fillMaxWidth(0.5f)
             .padding(vertical = 16.dp),
         shape = RoundedCornerShape(8.dp)
     ) {
-        Text("Kontrol Et", color = Color.White,
+        Text(
+            "Kontrol Et", color = Color.White,
             fontWeight = FontWeight.SemiBold,
             fontSize = 24.sp,
             fontFamily = FredokaSemiBold,
-            modifier = Modifier.padding(6.dp))
+            modifier = Modifier.padding(6.dp)
+        )
     }
 }
