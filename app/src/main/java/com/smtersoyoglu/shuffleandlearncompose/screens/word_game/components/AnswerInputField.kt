@@ -59,7 +59,7 @@ fun AnswerInputField(
             .height(70.dp)
     )
 
-    Spacer(modifier = Modifier.height(24.dp))
+    Spacer(modifier = Modifier.height(16.dp))
     SubmitButton(onClick = {
         onAnswerSubmit(userInput)
         userInput = ""

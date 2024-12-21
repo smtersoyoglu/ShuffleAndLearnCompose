@@ -42,7 +42,7 @@ fun GameOverDialog(
                 .fillMaxWidth()
         ) {
             Column(
-                modifier = Modifier.padding(32.dp),
+                modifier = Modifier.padding(top = 24.dp, bottom = 24.dp, start = 32.dp, end = 32 .dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(

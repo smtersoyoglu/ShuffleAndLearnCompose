@@ -9,5 +9,6 @@ data class WordGameUiState(
     val correctCount: Int = 0,
     val incorrectCount: Int = 0,
     val isGameOver: Boolean = false,
+    val isCorrect: Boolean? = null
 )
 
