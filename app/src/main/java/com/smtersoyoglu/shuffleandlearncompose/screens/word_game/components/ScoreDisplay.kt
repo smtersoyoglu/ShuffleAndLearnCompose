@@ -10,7 +10,7 @@ import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
 
 @Composable
 fun ScoreDisplay(correctCount: Int, incorrectCount: Int) {
-    Row(horizontalArrangement = Arrangement.spacedBy(66.dp)) {
+    Row(horizontalArrangement = Arrangement.spacedBy(55.dp)) {
         Text(
             text = "Doğru Sayısı: $correctCount",
             fontSize = 24.sp,

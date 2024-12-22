@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WordGameViewModel @Inject constructor(
-    private val wordRepository: WordRepository
+    private val wordRepository: WordRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(WordGameUiState())
@@ -48,6 +48,7 @@ class WordGameViewModel @Inject constructor(
 
         _uiState.update {
             it.copy(
+                isCorrect = isCorrect, // Doğru/yanlış durumu
                 correctCount = if (isCorrect) it.correctCount + 1 else it.correctCount,
                 incorrectCount = if (!isCorrect) it.incorrectCount + 1 else it.incorrectCount,
                 currentWord = it.wordList.getOrNull(it.wordList.indexOf(currentWord) + 1)
@@ -55,9 +56,8 @@ class WordGameViewModel @Inject constructor(
         }
     }
 
-
     private fun startTimer() {
-        timerJob?.cancel()
+        timerJob?.cancel() // Eski timer job'u iptal et
         timerJob = viewModelScope.launch {
             for (time in 60 downTo 0) {
                 _uiState.update { it.copy(timer = time) }
@@ -68,18 +68,9 @@ class WordGameViewModel @Inject constructor(
     }
 
     fun resetGame() {
-        _uiState.update {
-            it.copy(
-                wordList = emptyList(), // Eğer kelime listesi sıfırlanacaksa
-                currentWord = null,
-                timer = 60, // Timer'ı sıfırla
-                correctCount = 0,
-                incorrectCount = 0,
-                isGameOver = false
-            )
-        }
-        fetchWords() // Kelimeleri yeniden al
-        startTimer() // Zamanlayıcıyı yeniden başlat
+        _uiState.value = WordGameUiState() // Varsayılan değerlere sıfırla
+        fetchWords() // Yeni kelimeleri getir
+        startTimer() // Zamanlayıcıyı başlat
     }
 
 }
