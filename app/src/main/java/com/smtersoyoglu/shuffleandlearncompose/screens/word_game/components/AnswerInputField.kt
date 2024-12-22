@@ -3,6 +3,7 @@ package com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -25,24 +26,33 @@ fun AnswerInputField(
     onAnswerSubmit: (String) -> Unit,
 ) {
     var userInput by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") } // Hata mesajı için durum
     val keyboardController = LocalSoftwareKeyboardController.current
 
     OutlinedTextField(
         value = userInput,
-        onValueChange = { userInput = it }, // Kullanıcı girdisi her değiştiğinde güncelleniyor
+        onValueChange = { // Kullanıcı girdisi her değiştiğinde güncelleniyor
+            userInput = it
+            errorMessage = "" // Kullanıcı yazarken hata mesajını temizle
+        },
         label = { Text("İngilizcesi") },
         textStyle = TextStyle(
             fontFamily = FredokaRegular,
             fontSize = 24.sp
         ),
+        isError = errorMessage.isNotEmpty(), // Hata durumunu belirle
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Done // Klavyedeki "Done" aksiyonunu gösterir
         ),
         keyboardActions = KeyboardActions(
             onDone = {
-                onAnswerSubmit(userInput) // "Done" tuşuna basıldığında girdiyi gönder
-                userInput = "" // Girdiyi temizle
-                keyboardController?.hide() // Klavyeyi kapat
+                if (userInput.isBlank()) {
+                    errorMessage = "Lütfen boş bırakmayınız."
+                } else {
+                    onAnswerSubmit(userInput)
+                    userInput = ""
+                    keyboardController?.hide()
+                }
             }
         ),
         placeholder = {
@@ -59,9 +69,16 @@ fun AnswerInputField(
             .height(70.dp)
     )
 
-    Spacer(modifier = Modifier.height(16.dp))
+    ErrorText(errorMessage = errorMessage, modifier = Modifier.padding(top = 8.dp))
+
+    Spacer(modifier = Modifier.height(12.dp))
     SubmitButton(onClick = {
-        onAnswerSubmit(userInput)
-        userInput = ""
+        if (userInput.isBlank()) {
+            errorMessage = "Lütfen boş bırakmayınız."
+        } else {
+            onAnswerSubmit(userInput)
+            userInput = ""
+            keyboardController?.hide()
+        }
     })
 }
