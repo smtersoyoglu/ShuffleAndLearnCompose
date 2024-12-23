@@ -1,15 +1,12 @@
 package com.smtersoyoglu.shuffleandlearncompose.navigation.bottomnav
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -19,18 +16,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
+
 @Composable
 fun BottomNavBar(navController: NavController, items: List<BottomNavItem>) {
     NavigationBar(
+        containerColor = Color.White,
+        contentColor = Color.White,
+        tonalElevation = 5.dp,
         modifier = Modifier
+            .padding(8.dp)
+            .clip(RoundedCornerShape(24.dp))
             .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp)),
-        containerColor = Color.White, // Arka plan rengi
-        tonalElevation = 8.dp // Hafif gölge efekti
+
     ) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
@@ -38,51 +42,65 @@ fun BottomNavBar(navController: NavController, items: List<BottomNavItem>) {
             val isSelected = currentRoute == item.route
             NavigationBarItem(
                 icon = {
-                    if (isSelected) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier
-                                .background(
-                                    color = Color(0xFFEDE7F6), // Seçili arka plan rengi
-                                    shape = RoundedCornerShape(60.dp) // Oval şekil
-                                )
-                                .padding(horizontal = 21.dp, vertical = 10.dp) // İç boşluk
-                        ) {
-                            Icon(
-                                imageVector = item.icon,
-                                contentDescription = item.title,
-                                tint = Color(0xFF6200EE) // Seçili ikon rengi
-                            )
-                            Spacer(modifier = Modifier.width(8.dp)) // İkon ve metin arasındaki boşluk
-                            Text(
-                                text = item.title,
-                                color = Color(0xFF6200EE), // Seçili metin rengi
-                                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp)
-                            )
-                        }
-                    } else {
-                        Icon(
-                            imageVector = item.icon,
-                            contentDescription = item.title,
-                            tint = Color.Black // Seçili olmayan ikon rengi
-                        )
-                    }
+                    Icon(
+                        imageVector = item.icon,
+                        contentDescription = item.title,
+                        modifier = Modifier.size(24.dp)
+                    )
+                },
+                label = {
+                    Text(
+                        text = item.title,
+                        fontSize = 14.sp,
+                        fontFamily = FredokaRegular
+                    )
                 },
                 selected = isSelected,
+                alwaysShowLabel = isSelected,
                 onClick = {
                     if (!isSelected) {
                         navController.navigate(item.route) {
-                            popUpTo(item.route) { inclusive = true } // Hedef ekranı tamamen yeniden yükle
+                            popUpTo(item.route) {
+                                inclusive = true
+                            } // Hedef ekranı tamamen yeniden yükle
                             launchSingleTop = true // Aynı ekran tekrar yığın içinde alınmaz
                         }
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color.Transparent // Default indicator tamamen kaldırılıyor
+                    selectedIconColor = Color.Black,
+                    selectedTextColor = Color.Black,
+                    unselectedIconColor = Color.Black.copy(alpha = 0.4f),
+                    unselectedTextColor = Color.Black.copy(alpha = 0.4f),
+                    indicatorColor = Color.Transparent
                 ),
-                alwaysShowLabel = false // Metni her zaman göstermiyoruz, sadece seçilince gösteriliyor
+                modifier = Modifier.padding(0.dp).align(Alignment.CenterVertically) // Yeni hizalama
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun BottomNavBarPreview() {
+    val navController = NavController(LocalContext.current)
+    BottomNavBar(
+        navController = navController, items = listOf(
+            BottomNavItem(
+                title = "Home",
+                route = "home",
+                icon = Icons.Default.Home
+            ),
+            BottomNavItem(
+                title = "Search",
+                route = "search",
+                icon = Icons.Default.Home
+            ),
+            BottomNavItem(
+                title = "Settings",
+                route = "settings",
+                icon = Icons.Default.Home
+            )
+        )
+    )
 }
