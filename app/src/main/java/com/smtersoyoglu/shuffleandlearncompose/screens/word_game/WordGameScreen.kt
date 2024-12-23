@@ -57,7 +57,7 @@ fun WordGameScreen(
                 incorrectCount = uiState.incorrectCount
             )
 
-            Spacer(modifier = Modifier.padding(24.dp))
+            Spacer(modifier = Modifier.padding(20.dp))
             // Kelime Kartı
             uiState.currentWord?.let { wordItem ->
                 WordGameCard(wordItem = wordItem)
@@ -66,7 +66,7 @@ fun WordGameScreen(
                 Text("Kelime Yükleniyor...", style = MaterialTheme.typography.bodyLarge)
             }
 
-            Spacer(modifier = Modifier.padding(16.dp))
+            Spacer(modifier = Modifier.padding(14.dp))
             // Cevap Girdisi ve Kontrol Etme Butonu
             AnswerInputField(
                 onAnswerSubmit = { userAnswer ->
@@ -74,7 +74,7 @@ fun WordGameScreen(
                 }
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(14.dp))
             // Animasyon
             AnimatedResponse(
                 animationRes = when (uiState.isCorrect) {

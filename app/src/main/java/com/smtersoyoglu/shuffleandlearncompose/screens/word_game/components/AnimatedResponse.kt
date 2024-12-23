@@ -26,7 +26,7 @@ fun AnimatedResponse(
         LottieAnimation(
             composition = composition,
             progress = { progress },
-            modifier = modifier.size(200.dp)
+            modifier = modifier.size(250.dp)
         )
     }
 }

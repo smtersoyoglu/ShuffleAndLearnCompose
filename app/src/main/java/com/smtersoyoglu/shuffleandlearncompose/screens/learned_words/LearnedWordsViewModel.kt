@@ -33,11 +33,7 @@ class LearnedWordsViewModel @Inject constructor(
                     updateState(error = "Error fetching learned words: ${exception.message}", isLoading = false)
                 }
                 .collect { learnedWords ->
-                    if (learnedWords.isNotEmpty()) {
-                        updateState(learnedWords = learnedWords, isLoading = false)
-                    } else {
-                        updateState(error = "No learned words available", isLoading = false)
-                    }
+                    updateState(learnedWords = learnedWords, isLoading = false)
                 }
         }
     }
