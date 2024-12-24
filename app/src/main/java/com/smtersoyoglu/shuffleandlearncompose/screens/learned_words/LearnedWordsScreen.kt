@@ -22,6 +22,7 @@ import com.smtersoyoglu.shuffleandlearncompose.R
 import com.smtersoyoglu.shuffleandlearncompose.navigation.Screen
 import com.smtersoyoglu.shuffleandlearncompose.screens.learned_words.components.LottieEmptyState
 import com.smtersoyoglu.shuffleandlearncompose.screens.word_main.components.WordCard
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.BackgroundColor
 
 @Composable
 fun LearnedWordsScreen(
@@ -33,7 +34,7 @@ fun LearnedWordsScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background) // Arka plan rengi burada ayarlanıyor
+            .background(BackgroundColor)
     ) {
         when {
             learnedWordsState.isLoading -> {

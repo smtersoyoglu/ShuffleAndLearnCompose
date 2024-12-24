@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -32,8 +31,9 @@ import androidx.compose.ui.unit.times
 import coil.compose.AsyncImage
 import com.smtersoyoglu.shuffleandlearncompose.R
 import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.CardBackgroundColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor2
 
 @Composable
 fun WordGameCard(wordItem: WordItem,) {
@@ -56,7 +56,7 @@ fun WordGameCard(wordItem: WordItem,) {
             Card(
                 elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp + index * 2.dp),
                 shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.5f)),
+                colors = CardDefaults.cardColors(containerColor = CardBackgroundColor.copy(alpha = 0.5f)),
                 modifier = Modifier
                     .offset(x = xOffset, y = yOffset)
                     .width(250.dp - index * 10.dp)
@@ -68,7 +68,7 @@ fun WordGameCard(wordItem: WordItem,) {
         Card(
             elevation = CardDefaults.elevatedCardElevation(defaultElevation = 15.dp),
             shape = RoundedCornerShape(18.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFFFFFFFF)),
+            colors = CardDefaults.cardColors(containerColor = CardBackgroundColor),
             modifier = Modifier
                 .padding(top = 30.dp)
                 .width(250.dp)
@@ -89,7 +89,7 @@ fun WordGameCard(wordItem: WordItem,) {
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
-                        color = TurkishTextColor,
+                        color = TurkishTextColor2,
                         fontFamily = FredokaSemiBold
                     ),
                     modifier = Modifier.fillMaxWidth(),

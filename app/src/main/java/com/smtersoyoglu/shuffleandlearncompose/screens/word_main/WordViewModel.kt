@@ -29,7 +29,7 @@ class WordViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (repository.getLearnedWords().first().isEmpty()) {
-                    repository.getWords() // Sadece veritabanında veri yoksa API çağrısı yap
+                    repository.fetchAndSaveWords() // Sadece veritabanında veri yoksa API çağrısı yap
 
                 }
             } catch (e: Exception) {
@@ -41,12 +41,13 @@ class WordViewModel @Inject constructor(
 
     private fun observeUnlearnedWords() {
         viewModelScope.launch {
-            repository.getUnlearnedWordsFlow()
+            repository.getUnlearnedWords()
                 .collect { words ->
                     if (words.isNotEmpty()) {
                         updateState(words = words, isLoading = false) // Eğer kelimeler varsa, listeyi güncelle
                     } else {
                         updateState(error = "No words available", isLoading = false) // Eğer kelime yoksa, hata mesajını göster
+                        // Buraya Tebrikler Tüm kelimeleri Ögrendiniz gibi bir animasyon ekle.
                     }
                 }
         }

@@ -12,7 +12,6 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -22,12 +21,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.BottomNavBackgroundColor
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.ButtonColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.UnSelectedIconColor
 
 @Composable
 fun BottomNavBar(navController: NavController, items: List<BottomNavItem>) {
     NavigationBar(
-        containerColor = Color.White,
+        containerColor = BottomNavBackgroundColor,
         contentColor = Color.White,
         tonalElevation = 5.dp,
         modifier = Modifier
@@ -69,12 +71,11 @@ fun BottomNavBar(navController: NavController, items: List<BottomNavItem>) {
                 },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = Color.Black,
-                    selectedTextColor = Color.Black,
-                    unselectedIconColor = Color.Black.copy(alpha = 0.4f),
-                    unselectedTextColor = Color.Black.copy(alpha = 0.4f),
-                    indicatorColor = Color.Transparent
+                    selectedTextColor = Color.White,
+                    unselectedIconColor = UnSelectedIconColor.copy(alpha = 0.4f),
+                    unselectedTextColor = UnSelectedIconColor.copy(alpha = 0.4f),
+                    indicatorColor = ButtonColor
                 ),
-                modifier = Modifier.padding(0.dp).align(Alignment.CenterVertically) // Yeni hizalama
             )
         }
     }

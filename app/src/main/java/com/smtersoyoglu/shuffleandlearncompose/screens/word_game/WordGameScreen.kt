@@ -23,6 +23,7 @@ import com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components.Game
 import com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components.ScoreDisplay
 import com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components.TimerDisplay
 import com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components.WordGameCard
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.BackgroundColor
 
 @Composable
 fun WordGameScreen(
@@ -44,8 +45,7 @@ fun WordGameScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
-                .background(MaterialTheme.colorScheme.background),
+                .background(BackgroundColor),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Timer ekleme
@@ -57,7 +57,7 @@ fun WordGameScreen(
                 incorrectCount = uiState.incorrectCount
             )
 
-            Spacer(modifier = Modifier.padding(20.dp))
+            Spacer(modifier = Modifier.padding(24.dp))
             // Kelime Kartı
             uiState.currentWord?.let { wordItem ->
                 WordGameCard(wordItem = wordItem)

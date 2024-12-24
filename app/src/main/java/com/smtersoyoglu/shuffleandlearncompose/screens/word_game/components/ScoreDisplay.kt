@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor2
 
 @Composable
 fun ScoreDisplay(correctCount: Int, incorrectCount: Int) {
@@ -14,12 +15,14 @@ fun ScoreDisplay(correctCount: Int, incorrectCount: Int) {
         Text(
             text = "Doğru Sayısı: $correctCount",
             fontSize = 24.sp,
-            fontFamily = FredokaRegular
+            fontFamily = FredokaRegular,
+            color = TurkishTextColor2
         )
         Text(
             text = "Yanlış Sayısı: $incorrectCount",
             fontSize = 24.sp,
-            fontFamily = FredokaRegular
+            fontFamily = FredokaRegular,
+            color = TurkishTextColor2
         )
     }
 

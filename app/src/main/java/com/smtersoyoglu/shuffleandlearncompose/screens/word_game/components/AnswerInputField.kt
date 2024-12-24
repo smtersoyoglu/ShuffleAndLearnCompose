@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,6 +21,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor2
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.focusedBorderColor
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.focusedLabelColor
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.unfocusedBorderColor
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.unfocusedLabelColor
 
 @Composable
 fun AnswerInputField(
@@ -38,7 +44,8 @@ fun AnswerInputField(
         label = { Text("İngilizcesi") },
         textStyle = TextStyle(
             fontFamily = FredokaRegular,
-            fontSize = 24.sp
+            fontSize = 24.sp,
+            color = TurkishTextColor2
         ),
         isError = errorMessage.isNotEmpty(), // Hata durumunu belirle
         keyboardOptions = KeyboardOptions.Default.copy(
@@ -59,14 +66,21 @@ fun AnswerInputField(
             Text(
                 text = "Kelimenin İngilizcesi nedir?",
                 style = TextStyle(fontSize = 16.sp),
-                fontFamily = FredokaRegular
+                fontFamily = FredokaRegular,
+                color = TurkishTextColor2
             )
         },
         enabled = true,
         singleLine = true,
         modifier = Modifier
             .fillMaxWidth(0.7f)
-            .height(70.dp)
+            .height(70.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = focusedBorderColor,
+            unfocusedBorderColor = unfocusedBorderColor,
+            focusedLabelColor = focusedLabelColor,
+            unfocusedLabelColor = unfocusedLabelColor,
+        )
     )
 
     ErrorText(errorMessage = errorMessage, modifier = Modifier.padding(top = 8.dp))

@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,10 +28,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.EnglishTextColor
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.CardBackgroundColor
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.EnglishTextColor2
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor2
 
 @Composable
 fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
@@ -47,7 +47,7 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
         Card(
             elevation = CardDefaults.elevatedCardElevation(defaultElevation = 15.dp),
             shape = RoundedCornerShape(18.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFFFFFFFF)),
+            colors = CardDefaults.cardColors(containerColor = CardBackgroundColor),
             modifier = Modifier
                 .padding(top = 30.dp)
                 .fillMaxWidth()
@@ -67,7 +67,7 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp,
-                        color = TurkishTextColor,
+                        color = TurkishTextColor2,
                         fontFamily = FredokaRegular
                     ),
                     modifier = Modifier.fillMaxWidth(),
@@ -81,7 +81,7 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 28.sp,
-                        color = EnglishTextColor,
+                        color = EnglishTextColor2,
                         fontFamily = FredokaSemiBold
 
                     ),

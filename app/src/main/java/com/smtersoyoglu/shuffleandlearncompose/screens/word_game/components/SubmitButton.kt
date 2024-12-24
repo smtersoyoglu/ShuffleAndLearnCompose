@@ -12,21 +12,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.ButtonColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.teal_650
 
 @Composable
 fun SubmitButton(onClick: () -> Unit) {
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(teal_650),
+        colors = ButtonDefaults.buttonColors(ButtonColor),
         modifier = Modifier
             .fillMaxWidth(0.5f)
             .padding(vertical = 16.dp),
         shape = RoundedCornerShape(8.dp)
     ) {
         Text(
-            "Kontrol Et", color = Color.White,
+            "Kontrol Et", color = Color.Black,
             fontWeight = FontWeight.SemiBold,
             fontSize = 24.sp,
             fontFamily = FredokaSemiBold,

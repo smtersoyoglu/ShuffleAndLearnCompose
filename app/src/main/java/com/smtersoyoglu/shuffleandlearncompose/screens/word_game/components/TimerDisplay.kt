@@ -4,12 +4,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.sp
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor2
 
 @Composable
 fun TimerDisplay(timeRemaining: Int) {
     Text(
         text = "Kalan Süre: $timeRemaining",
         fontSize = 24.sp,
-        fontFamily = FredokaSemiBold
+        fontFamily = FredokaSemiBold,
+        color = TurkishTextColor2
     )
 }
