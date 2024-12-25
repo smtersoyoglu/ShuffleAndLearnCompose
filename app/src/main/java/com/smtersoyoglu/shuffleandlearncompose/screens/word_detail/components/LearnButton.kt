@@ -14,14 +14,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.ButtonColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.teal_650
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.LearnedButtonColor
 
 @Composable
 fun LearnButton(isLearned: Boolean, onLearned: () -> Unit) {
     Button(
         onClick = { onLearned() },
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isLearned) teal_650 else ButtonColor
+            containerColor = if (isLearned) LearnedButtonColor else ButtonColor
         ),
         modifier = Modifier
             .fillMaxWidth(0.5f)

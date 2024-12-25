@@ -22,6 +22,7 @@ val SentenceTestColor = Color(0xFF424242)
 val BottomNavBackgroundColor = Color(0xFF29313B)
 val BottomNavSelectedIconColor = Color(0xFFFFFFFF)
 val ButtonColor = Color(0xFFF7CCAE)
+val LearnedButtonColor = Color(0xFFD9902E)
 
 val TurkishTextColor2 = Color(0xFFFFFFFF)
 val EnglishTextColor2 = Color(0xFFF7CCAF)
