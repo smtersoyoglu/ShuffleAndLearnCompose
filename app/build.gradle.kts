@@ -38,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -82,6 +83,12 @@ dependencies {
     implementation (libs.converter.gson)
     implementation (libs.okhttp)
 
+    //lottieanim
     implementation("com.airbnb.android:lottie-compose:6.3.0")
+
+    //geminiai
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+
+    implementation(libs.accompanist)
 
 }

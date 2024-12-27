@@ -7,4 +7,5 @@ sealed class Screen (val route: String) {
     data object WordDetailScreen : Screen(route = "word_detail_screen/{wordId}") {
         fun createRoute(wordId: Int) = "word_detail_screen/$wordId"
     }
+    data object ChatPage : Screen(route = "chatPage")
 }
