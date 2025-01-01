@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -16,11 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.smtersoyoglu.shuffleandlearncompose.R
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.BottomNavBackgroundColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.ButtonColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
@@ -45,7 +45,7 @@ fun BottomNavBar(navController: NavController, items: List<BottomNavItem>) {
             NavigationBarItem(
                 icon = {
                     Icon(
-                        imageVector = item.icon,
+                        painter = painterResource(id = item.icon),
                         contentDescription = item.title,
                         modifier = Modifier.size(24.dp)
                     )
@@ -90,17 +90,17 @@ fun BottomNavBarPreview() {
             BottomNavItem(
                 title = "Home",
                 route = "home",
-                icon = Icons.Default.Home
+                icon = R.drawable.ic_home
             ),
             BottomNavItem(
-                title = "Search",
-                route = "search",
-                icon = Icons.Default.Home
+                title = "Learned",
+                route = "learned",
+                icon = R.drawable.ic_learned
             ),
             BottomNavItem(
-                title = "Settings",
-                route = "settings",
-                icon = Icons.Default.Home
+                title = "WordGame",
+                route = "wordgame",
+                icon =  R.drawable.ic_matchword
             )
         )
     )

@@ -28,7 +28,7 @@ fun MessageInput(onMessageSend: (String) -> Unit) {
     var message by remember { mutableStateOf("") }
 
     Row(
-        modifier = Modifier.padding(8.dp),
+        modifier = Modifier.padding(start = 10.dp, end = 8.dp, bottom = 8.dp, top = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedTextField(

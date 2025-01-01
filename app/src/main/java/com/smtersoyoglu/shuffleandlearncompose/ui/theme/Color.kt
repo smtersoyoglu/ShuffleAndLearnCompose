@@ -34,5 +34,5 @@ val focusedBorderColor = Color(0xFFF7CCAE)
 val unfocusedLabelColor = Color(0xFFCED2DA)
 val focusedLabelColor = Color(0xFFF7CCAE)
 
-val ColorUserMessage = Color(0xFF8AB4F8)
+val ColorUserMessage = Color(0xFFF7CCAE)
 val ColorModelMessage = Color(0xFF4CAF50)
