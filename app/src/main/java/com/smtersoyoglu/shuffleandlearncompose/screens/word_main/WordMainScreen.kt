@@ -44,7 +44,10 @@ fun WordMainScreen(
     viewModel: WordViewModel = hiltViewModel(),
     navController: NavController,
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+// ViewModel'deki uiState (StateFlow) değişikliklerini dinleyerek,
+// Compose ekranında sürekli güncellenen bir state oluşturur.
+// Bu sayede Flow'da bir değişiklik olduğunda UI otomatik olarak yeniden çizilir.
+    val uiState by viewModel.uiState.collectAsState() // collectAsState(), yalnızca Flow veya LiveData gibi reaktif veri yapılarını dinlemek için kullanılır
     var shuffledWords by remember { mutableStateOf(uiState.words) }
 
     val pullToRefreshState = rememberPullToRefreshState()
@@ -88,19 +91,20 @@ fun WordMainScreen(
             when {
                 uiState.isLoading -> CircularProgressIndicator()
                 uiState.error != null -> Text(uiState.error!!, color = Color.Red)
-                shuffledWords.isEmpty() -> Text("No words available")
-                else -> LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-                    items(shuffledWords) { word ->
-                        WordCard(wordItem = word) {
-                            navController.navigate(Screen.WordDetailScreen.createRoute(word.id))
+                else ->
+                    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+                        items(shuffledWords) { word ->
+                            WordCard(wordItem = word) {
+                                navController.navigate(Screen.WordDetailScreen.createRoute(word.id))
+                            }
                         }
                     }
-                }
             }
         }
         if (pullToRefreshState.isRefreshing) {
             PullToRefreshContainer(
-                modifier = Modifier.align(Alignment.TopCenter)
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
                     .padding(top = 8.dp),
                 state = pullToRefreshState,
             )
