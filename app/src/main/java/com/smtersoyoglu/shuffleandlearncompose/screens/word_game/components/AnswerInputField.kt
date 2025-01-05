@@ -15,7 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -32,14 +32,24 @@ fun AnswerInputField(
     onAnswerSubmit: (String) -> Unit,
 ) {
     var userInput by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf("") } // Hata mesajı için durum
-    val keyboardController = LocalSoftwareKeyboardController.current
+    var errorMessage by remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
+
+    val submitAnswer = {
+        if (userInput.isBlank()) {
+            errorMessage = "Lütfen boş bırakmayınız."
+        } else {
+            onAnswerSubmit(userInput)
+            userInput = ""
+            focusManager.clearFocus() // Odağı kaldır ve klavyeyi gizle
+        }
+    }
 
     OutlinedTextField(
         value = userInput,
-        onValueChange = { // Kullanıcı girdisi her değiştiğinde güncelleniyor
+        onValueChange = {
             userInput = it
-            errorMessage = "" // Kullanıcı yazarken hata mesajını temizle
+            errorMessage = ""
         },
         label = { Text("İngilizcesi") },
         textStyle = TextStyle(
@@ -47,19 +57,13 @@ fun AnswerInputField(
             fontSize = 24.sp,
             color = TurkishTextColor2
         ),
-        isError = errorMessage.isNotEmpty(), // Hata durumunu belirle
+        isError = errorMessage.isNotEmpty(),
         keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Done // Klavyedeki "Done" aksiyonunu gösterir
+            imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(
             onDone = {
-                if (userInput.isBlank()) {
-                    errorMessage = "Lütfen boş bırakmayınız."
-                } else {
-                    onAnswerSubmit(userInput)
-                    userInput = ""
-                    keyboardController?.hide()
-                }
+                submitAnswer()
             }
         ),
         placeholder = {
@@ -87,12 +91,6 @@ fun AnswerInputField(
 
     Spacer(modifier = Modifier.height(12.dp))
     SubmitButton(onClick = {
-        if (userInput.isBlank()) {
-            errorMessage = "Lütfen boş bırakmayınız."
-        } else {
-            onAnswerSubmit(userInput)
-            userInput = ""
-            keyboardController?.hide()
-        }
+        submitAnswer()
     })
 }
