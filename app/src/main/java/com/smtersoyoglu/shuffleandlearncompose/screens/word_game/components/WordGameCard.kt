@@ -59,8 +59,8 @@ fun WordGameCard(wordItem: WordItem,) {
                 colors = CardDefaults.cardColors(containerColor = CardBackgroundColor.copy(alpha = 0.5f)),
                 modifier = Modifier
                     .offset(x = xOffset, y = yOffset)
-                    .width(250.dp - index * 10.dp)
-                    .height(240.dp - index * 5.dp)
+                    .width(240.dp - index * 10.dp)
+                    .height(230.dp - index * 5.dp)
                     .graphicsLayer(rotationZ = rotationZ)
             ) {}
         }
@@ -71,8 +71,8 @@ fun WordGameCard(wordItem: WordItem,) {
             colors = CardDefaults.cardColors(containerColor = CardBackgroundColor),
             modifier = Modifier
                 .padding(top = 30.dp)
-                .width(250.dp)
-                .height(240.dp)
+                .width(240.dp)
+                .height(230.dp)
 
         ) {
             Column(
@@ -82,7 +82,7 @@ fun WordGameCard(wordItem: WordItem,) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(180.dp))
+                Spacer(modifier = Modifier.height(170.dp))
 
                 Text(
                     text = wordItem.translation,
@@ -103,8 +103,8 @@ fun WordGameCard(wordItem: WordItem,) {
             model = wordItem.imageUrl,
             contentDescription = wordItem.english,
             modifier = Modifier
-                .size(size = 250.dp)
-                .offset(y = (-50).dp)
+                .size(size = 240.dp)
+                .offset(y = (-60).dp)
                 .clip(RoundedCornerShape(16.dp)),
             contentScale = ContentScale.Fit
         )

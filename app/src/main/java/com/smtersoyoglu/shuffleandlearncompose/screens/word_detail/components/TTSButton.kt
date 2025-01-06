@@ -10,10 +10,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.smtersoyoglu.shuffleandlearncompose.R
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.IconTintColor
 import java.util.Locale
 
 @Composable
@@ -45,7 +45,7 @@ fun TTSButton(textToSpeak: String) {
         Icon(
             painter = painterResource(id = R.drawable.sound), // Hoparlör ikonu için bir drawable ekle
             contentDescription = "Play pronunciation",
-            tint = Color.White,
+            tint = IconTintColor,
         )
     }
 }

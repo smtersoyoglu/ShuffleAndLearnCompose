@@ -25,16 +25,16 @@ fun LearnButton(isLearned: Boolean, onLearned: () -> Unit) {
         ),
         modifier = Modifier
             .fillMaxWidth(0.5f)
-            .padding(vertical = 16.dp),
+            .padding(vertical = 18.dp),
         shape = RoundedCornerShape(8.dp)
     ) {
         Text(
             text = if (isLearned) "Learned" else "Learn",
             color = Color.Black,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 24.sp,
+            fontSize = 28.sp,
             fontFamily = FredokaSemiBold,
-            modifier = Modifier.padding(6.dp)
+            modifier = Modifier.padding(8.dp)
         )
     }
 }

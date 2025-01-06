@@ -11,16 +11,16 @@ import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor2
 
 @Composable
 fun ScoreDisplay(correctCount: Int, incorrectCount: Int) {
-    Row(horizontalArrangement = Arrangement.spacedBy(55.dp)) {
+    Row(horizontalArrangement = Arrangement.spacedBy(77.dp)) {
         Text(
             text = "Doğru Sayısı: $correctCount",
-            fontSize = 24.sp,
+            fontSize = 21.sp,
             fontFamily = FredokaRegular,
             color = TurkishTextColor2
         )
         Text(
             text = "Yanlış Sayısı: $incorrectCount",
-            fontSize = 24.sp,
+            fontSize = 21.sp,
             fontFamily = FredokaRegular,
             color = TurkishTextColor2
         )

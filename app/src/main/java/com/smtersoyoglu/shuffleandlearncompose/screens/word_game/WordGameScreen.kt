@@ -57,7 +57,7 @@ fun WordGameScreen(
                 incorrectCount = uiState.incorrectCount
             )
 
-            Spacer(modifier = Modifier.padding(24.dp))
+            Spacer(modifier = Modifier.padding(26.dp))
             // Kelime Kartı
             uiState.currentWord?.let { wordItem ->
                 WordGameCard(wordItem = wordItem)

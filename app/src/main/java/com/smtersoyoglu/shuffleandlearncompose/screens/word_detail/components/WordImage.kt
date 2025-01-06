@@ -16,7 +16,7 @@ fun WordImage(imageUrl: String, description: String) {
         model = imageUrl,
         contentDescription = description,
         modifier = Modifier
-            .height(300.dp)
+            .height(240.dp)
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp)),
         contentScale = ContentScale.Fit

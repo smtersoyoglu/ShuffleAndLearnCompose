@@ -89,7 +89,7 @@ fun AnswerInputField(
 
     ErrorText(errorMessage = errorMessage, modifier = Modifier.padding(top = 8.dp))
 
-    Spacer(modifier = Modifier.height(12.dp))
+    Spacer(modifier = Modifier.height(10.dp))
     SubmitButton(onClick = {
         submitAnswer()
     })

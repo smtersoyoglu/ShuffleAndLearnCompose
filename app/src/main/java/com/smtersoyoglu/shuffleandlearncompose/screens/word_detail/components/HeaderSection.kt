@@ -17,11 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.BackgroundColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.ButtonColor
 import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaBold
+import com.smtersoyoglu.shuffleandlearncompose.ui.theme.HeaderColor
 
 @Composable
 fun HeaderSection(onBack: () -> Unit) {
@@ -46,8 +47,7 @@ fun HeaderSection(onBack: () -> Unit) {
                 append("Learn ")
                 withStyle(
                     style = SpanStyle(
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
+                        color = HeaderColor,
                         fontFamily = FredokaBold
                     )
                 ) {
@@ -55,8 +55,7 @@ fun HeaderSection(onBack: () -> Unit) {
                 }
                 withStyle(
                     style = SpanStyle(
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
+                        color = BackgroundColor,
                         fontFamily = FredokaBold
                     )
                 ) {
@@ -64,7 +63,6 @@ fun HeaderSection(onBack: () -> Unit) {
                 }
             },
             style = MaterialTheme.typography.headlineLarge.copy(
-                fontWeight = FontWeight.Bold,
                 color = ButtonDefaults.buttonColors(ButtonColor).containerColor,
                 fontFamily = FredokaBold
             ),

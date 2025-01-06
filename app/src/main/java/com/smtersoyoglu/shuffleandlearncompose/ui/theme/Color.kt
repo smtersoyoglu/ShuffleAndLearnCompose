@@ -36,3 +36,7 @@ val focusedLabelColor = Color(0xFFF7CCAE)
 
 val ColorUserMessage = Color(0xFFF7CCAE)
 val ColorModelMessage = Color(0xFF4CAF50)
+val Blur = Color(0xFF8D7857).copy(alpha = 0.5f)
+val BottomNavBackgroundColor1 = Color(0xFF29313B).copy(alpha = 0.5f)
+
+val IconTintColor = Color(0xFFF4F7FB)

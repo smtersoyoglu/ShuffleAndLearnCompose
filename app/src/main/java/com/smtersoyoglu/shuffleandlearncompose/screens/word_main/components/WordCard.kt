@@ -38,7 +38,7 @@ import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor2
 fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = 16.dp, vertical = 24.dp)
             .width(IntrinsicSize.Max)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
@@ -49,9 +49,9 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
             shape = RoundedCornerShape(18.dp),
             colors = CardDefaults.cardColors(containerColor = CardBackgroundColor),
             modifier = Modifier
-                .padding(top = 30.dp)
+                .padding(top = 40.dp)
                 .fillMaxWidth()
-                .height(230.dp)
+                .height(184.dp)
 
         ) {
             Column (
@@ -60,7 +60,7 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(140.dp))
+                Spacer(modifier = Modifier.height(100.dp))
 
                 Text(
                     text = wordItem.translation,
@@ -80,7 +80,7 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
                     text = wordItem.english,
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
-                        fontSize = 28.sp,
+                        fontSize = 24.sp,
                         color = EnglishTextColor2,
                         fontFamily = FredokaSemiBold
 
@@ -96,8 +96,8 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
             model = wordItem.imageUrl,
             contentDescription = wordItem.english,
             modifier = Modifier
-                .size(size = 180.dp)
-                .offset(y = (-50).dp)
+                .size(size = 160.dp)
+                .offset(y = (-55).dp)
                 .clip(RoundedCornerShape(16.dp)),
             contentScale = ContentScale.Fit
         )

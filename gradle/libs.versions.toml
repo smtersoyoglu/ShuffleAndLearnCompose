@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.2"
+generativeaiVersion = "0.9.0"
 hiltCompiler = "2.51.1"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
@@ -9,6 +10,7 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.3"
 composeBom = "2024.04.01"
+lottieComposeVersion = "6.3.0"
 navigationCompose = "2.8.3"
 roomCompilerVersion = "2.6.1"
 roomKtx = "2.6.1"
@@ -30,6 +32,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtxVersion" }
+generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeaiVersion" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltCompiler" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompiler" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -49,6 +52,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieComposeVersion" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompilerVersion" }
 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
@@ -61,6 +65,7 @@ accompanist = {group = "com.google.accompanist", name = "accompanist-permissions
 androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycleProcessVersion" }
 androidx-hilt-common = { group = "androidx.hilt", name = "hilt-common", version.ref = "hiltCommonVersion" }
 androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWorkVersion" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

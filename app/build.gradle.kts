@@ -84,10 +84,10 @@ dependencies {
     implementation (libs.okhttp)
 
     //lottieanim
-    implementation("com.airbnb.android:lottie-compose:6.3.0")
+    implementation(libs.lottie.compose)
 
     //geminiai
-    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    implementation(libs.generativeai)
 
     implementation(libs.accompanist)
 
