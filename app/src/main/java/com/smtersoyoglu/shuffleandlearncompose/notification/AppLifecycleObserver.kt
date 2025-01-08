@@ -1,27 +1,39 @@
 package com.smtersoyoglu.shuffleandlearncompose.notification
 
-import android.content.Context
+import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-// AppLifecycleObserver -uygulamanın arka planda kalıp kalmadığını algıla
 class AppLifecycleObserver @Inject constructor(
-    private val context: Context
+    private val workManager: WorkManager
 ) : DefaultLifecycleObserver {
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
-
-        val workRequest: WorkRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
-            .setInitialDelay(10, TimeUnit.SECONDS) // 10 saniye gecikme
+        // Uygulama arka plana alındığında bir iş planlıyoruz
+        val workRequest: OneTimeWorkRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
+            .setInitialDelay(15, TimeUnit.SECONDS) // 15 saniye gecikme
             .build()
 
-        // WorkManager ile iş zamanla
-        WorkManager.getInstance(context).enqueue(workRequest)
+        // WorkManager ile işi planlama (aynı iş zaten varsa yenisiyle değiştir)
+        workManager.enqueueUniqueWork(
+            "notification_work",
+            ExistingWorkPolicy.REPLACE,
+            workRequest
+        )
+        Log.d("AppLifecycleObserver", "Bildirim planlandı")
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
+        // Uygulama tekrar öne alındığında, bildirim işi iptal ediliyor
+        workManager.cancelUniqueWork("notification_work")
+        Log.d("AppLifecycleObserver", "Bildirim iptal edildi")
     }
 }

@@ -6,8 +6,9 @@ import android.app.NotificationManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.hilt.work.HiltWorkerFactory
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.work.Configuration
-import androidx.work.WorkManager
+import com.smtersoyoglu.shuffleandlearncompose.notification.AppLifecycleObserver
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -17,10 +18,15 @@ class ShuffleAndLearnApp : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
+    @Inject
+    lateinit var lifecycleObserver: AppLifecycleObserver
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
+        // Lifecycle observer'ı uygulama yaşam döngüsüne bağla
+        ProcessLifecycleOwner.get().lifecycle.addObserver(lifecycleObserver)
     }
 
     // Notification Channel oluşturma
@@ -43,6 +49,5 @@ class ShuffleAndLearnApp : Application(), Configuration.Provider {
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
-            .setMinimumLoggingLevel(android.util.Log.INFO) // Özel ayarlar ekleyebilirsiniz
             .build()
 }
