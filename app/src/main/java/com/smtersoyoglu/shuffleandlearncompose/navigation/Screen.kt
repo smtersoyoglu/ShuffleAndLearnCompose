@@ -8,4 +8,6 @@ sealed class Screen (val route: String) {
         fun createRoute(wordId: Int) = "word_detail_screen/$wordId"
     }
     data object ChatPage : Screen(route = "chatPage")
+
+    data object SplashScreen : Screen(route = "splash_screen")
 }
