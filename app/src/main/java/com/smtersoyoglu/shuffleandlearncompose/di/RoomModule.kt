@@ -2,8 +2,8 @@ package com.smtersoyoglu.shuffleandlearncompose.di
 
 import android.app.Application
 import androidx.room.Room
-import com.smtersoyoglu.shuffleandlearncompose.data.room.WordDatabase
-import com.smtersoyoglu.shuffleandlearncompose.util.Constants.DATABASE_NAME
+import com.smtersoyoglu.shuffleandlearncompose.data.local.WordDatabase
+import com.smtersoyoglu.shuffleandlearncompose.common.Constants.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

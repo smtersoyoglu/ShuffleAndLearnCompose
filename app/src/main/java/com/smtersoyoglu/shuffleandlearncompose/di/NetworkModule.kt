@@ -1,7 +1,7 @@
 package com.smtersoyoglu.shuffleandlearncompose.di
 
-import com.smtersoyoglu.shuffleandlearncompose.data.retrofit.WordService
-import com.smtersoyoglu.shuffleandlearncompose.util.Constants.BASE_URL
+import com.smtersoyoglu.shuffleandlearncompose.data.remote.WordService
+import com.smtersoyoglu.shuffleandlearncompose.common.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +16,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit() : Retrofit {
+    fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -25,7 +25,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideWordService(retrofit: Retrofit) : WordService {
+    fun provideWordService(retrofit: Retrofit): WordService {
         return retrofit.create(WordService::class.java)
     }
 }

@@ -17,7 +17,7 @@ import dagger.assisted.AssistedInject
 @HiltWorker
 class NotificationWorker @AssistedInject constructor(
     @Assisted context: Context,
-    @Assisted workerParams: WorkerParameters
+    @Assisted workerParams: WorkerParameters,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -39,8 +39,13 @@ class NotificationWorker @AssistedInject constructor(
         val notification = NotificationCompat.Builder(applicationContext, "note_notification")
             .setContentTitle("Bu kadar ara yeter!")
             .setContentText("Öğrenmeye geri dön ve yeni kelimeler keşfet!")
-            .setSmallIcon(R.drawable.icon_app)
-            .setLargeIcon(BitmapFactory.decodeResource(applicationContext.resources, R.drawable.icon_app)) // Büyük simge
+            .setSmallIcon(R.drawable.ic_notification_icon)
+            .setLargeIcon(
+                BitmapFactory.decodeResource(
+                    applicationContext.resources,
+                    R.drawable.icon_app
+                )
+            ) // Büyük simge
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
