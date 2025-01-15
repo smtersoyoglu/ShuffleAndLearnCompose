@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.ui.theme
+package com.smtersoyoglu.shuffleandlearncompose.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
