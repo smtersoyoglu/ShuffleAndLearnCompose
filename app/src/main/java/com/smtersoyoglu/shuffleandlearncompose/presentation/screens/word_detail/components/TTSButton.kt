@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_detail.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.components
 
 import android.speech.tts.TextToSpeech
 import android.util.Log
@@ -13,7 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.smtersoyoglu.shuffleandlearncompose.R
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.IconTintColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.IconTintColor
 import java.util.Locale
 
 @Composable

@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_detail.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,10 +19,10 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.BackgroundColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.ButtonColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaBold
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.HeaderColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.BackgroundColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.ButtonColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaBold
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.HeaderColor
 
 @Composable
 fun HeaderSection(onBack: () -> Unit) {

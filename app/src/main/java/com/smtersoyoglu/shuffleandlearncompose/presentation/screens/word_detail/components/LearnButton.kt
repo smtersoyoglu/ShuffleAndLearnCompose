@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_detail.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,9 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.ButtonColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.LearnedButtonColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.ButtonColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaSemiBold
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.LearnedButtonColor
 
 @Composable
 fun LearnButton(isLearned: Boolean, onLearned: () -> Unit) {

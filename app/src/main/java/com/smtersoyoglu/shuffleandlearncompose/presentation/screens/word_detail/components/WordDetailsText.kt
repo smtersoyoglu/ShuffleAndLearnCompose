@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_detail.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -11,11 +11,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.EnglishTextColor2
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.SentenceTestColor2
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor2
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.EnglishTextColor2
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaRegular
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaSemiBold
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.SentenceTestColor2
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.TurkishTextColor2
 
 @Composable
 fun WordDetailsText(translation: String, english: String, sentence: String) {

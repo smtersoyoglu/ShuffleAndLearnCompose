@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_detail
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.smtersoyoglu.shuffleandlearncompose.screens.word_detail.components.WordDetailContent
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.components.WordDetailContent
 
 @Composable
 fun WordDetailScreen(

@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_detail.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
+import com.smtersoyoglu.shuffleandlearncompose.domain.model.WordItem
 
 @Composable
 fun WordDetailContent(
@@ -42,7 +42,7 @@ fun WordDetailContent(
             WordDetailsText(
                 translation = wordItem.translation,
                 english = wordItem.english,
-                sentence = wordItem.sentence
+                sentence = wordItem.sentence ?: "No example sentence provided" // Varsayılan örnek cümle
             )
 
             LearnButton(isLearned = isLearned, onLearned = onLearned)
