@@ -11,14 +11,14 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class AppLifecycleObserver @Inject constructor(
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
 ) : DefaultLifecycleObserver {
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
         // Uygulama arka plana alındığında bir iş planlıyoruz
         val workRequest: OneTimeWorkRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
-            .setInitialDelay(15, TimeUnit.SECONDS) // 15 saniye gecikme
+            .setInitialDelay(5, TimeUnit.SECONDS) // deneme amacli 5 saniye gecikme
             .build()
 
         // WorkManager ile işi planlama (aynı iş zaten varsa yenisiyle değiştir)
