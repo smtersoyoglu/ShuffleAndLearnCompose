@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -6,8 +6,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor2
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaRegular
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.TurkishTextColor2
 
 @Composable
 fun ScoreDisplay(correctCount: Int, incorrectCount: Int) {

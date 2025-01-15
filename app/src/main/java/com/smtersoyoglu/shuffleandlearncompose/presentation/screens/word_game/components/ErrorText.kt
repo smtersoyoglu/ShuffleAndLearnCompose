@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable

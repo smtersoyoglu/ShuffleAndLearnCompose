@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,10 +30,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import coil.compose.AsyncImage
 import com.smtersoyoglu.shuffleandlearncompose.R
-import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.CardBackgroundColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor2
+import com.smtersoyoglu.shuffleandlearncompose.domain.model.WordItem
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.CardBackgroundColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaSemiBold
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.TurkishTextColor2
 
 @Composable
 fun WordGameCard(wordItem: WordItem,) {
@@ -117,7 +117,12 @@ fun GameWordCardPreview() {
     WordGameCard(
         wordItem = WordItem(
             id = 1,
-            translation = "Köpek",
-            imageUrl = R.drawable.dog_card.toString(),)
+            translation = "Elma",
+            english = "Apple",
+            imageUrl = R.drawable.apple_card.toString(),
+            sentence = "Bu bir elma.",
+            isLearned = false
+        )
+
     )
 }

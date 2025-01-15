@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,12 +20,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor2
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.focusedBorderColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.focusedLabelColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.unfocusedBorderColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.unfocusedLabelColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaRegular
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.TurkishTextColor2
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.focusedBorderColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.focusedLabelColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.unfocusedBorderColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.unfocusedLabelColor
 
 @Composable
 fun AnswerInputField(

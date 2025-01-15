@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_game
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -17,13 +17,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.smtersoyoglu.shuffleandlearncompose.R
-import com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components.AnimatedResponse
-import com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components.AnswerInputField
-import com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components.GameOverDialog
-import com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components.ScoreDisplay
-import com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components.TimerDisplay
-import com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components.WordGameCard
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.BackgroundColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components.AnimatedResponse
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components.AnswerInputField
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components.GameOverDialog
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components.ScoreDisplay
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components.TimerDisplay
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components.WordGameCard
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.BackgroundColor
 
 @Composable
 fun WordGameScreen(

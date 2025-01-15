@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_game.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,8 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaRegular
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaSemiBold
 
 @Composable
 fun GameOverDialog(
