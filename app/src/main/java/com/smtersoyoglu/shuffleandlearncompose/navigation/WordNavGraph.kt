@@ -54,7 +54,8 @@ fun WordNavGraph(modifier: Modifier = Modifier) {
     Scaffold(
         bottomBar = {
             // Mevcut rota bilgisini kontrol et
-            val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+            val currentRoute =
+                navController.currentBackStackEntryAsState().value?.destination?.route
             // Sadece ana ekranlar için BottomNavBar göster
             if (currentRoute in bottomNavItems.map { it.route }) {
                 BottomNavBar(navController = navController, items = bottomNavItems)
@@ -64,10 +65,13 @@ fun WordNavGraph(modifier: Modifier = Modifier) {
         NavHost(
             navController = navController,
             startDestination = Screen.SplashScreen.route,
-            modifier = modifier.fillMaxSize().background(BackgroundColor).padding(innerPadding)
+            modifier = modifier
+                .fillMaxSize()
+                .background(BackgroundColor)
+                .padding(innerPadding)
         ) {
             composable(route = Screen.SplashScreen.route) {
-                SplashScreen(navController= navController)
+                SplashScreen(navController = navController)
             }
 
             composable(

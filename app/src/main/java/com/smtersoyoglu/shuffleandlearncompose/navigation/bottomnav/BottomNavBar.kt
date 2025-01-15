@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.smtersoyoglu.shuffleandlearncompose.R
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.BottomNavBackgroundColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.ButtonColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.UnSelectedIconColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.BottomNavBackgroundColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.ButtonColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaRegular
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.UnSelectedIconColor
 
 @Composable
 fun BottomNavBar(navController: NavController, items: List<BottomNavItem>) {
@@ -37,7 +37,8 @@ fun BottomNavBar(navController: NavController, items: List<BottomNavItem>) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 14.dp, end = 14.dp, bottom = 14.dp, top = 4.dp)
-            .clip(RoundedCornerShape(26.dp)).size(90.dp)
+            .clip(RoundedCornerShape(26.dp))
+            .size(90.dp)
 
     ) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
