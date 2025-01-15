@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.learned_words.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.learned_words.components
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable

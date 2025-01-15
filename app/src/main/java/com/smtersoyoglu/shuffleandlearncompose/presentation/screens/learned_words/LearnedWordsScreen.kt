@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.learned_words
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.learned_words
 
 
 import androidx.compose.foundation.background
@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,9 +19,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.smtersoyoglu.shuffleandlearncompose.R
 import com.smtersoyoglu.shuffleandlearncompose.navigation.Screen
-import com.smtersoyoglu.shuffleandlearncompose.screens.learned_words.components.LottieEmptyState
-import com.smtersoyoglu.shuffleandlearncompose.screens.word_main.components.WordCard
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.BackgroundColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.learned_words.components.LottieEmptyState
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.components.WordCard
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.BackgroundColor
 
 @Composable
 fun LearnedWordsScreen(
