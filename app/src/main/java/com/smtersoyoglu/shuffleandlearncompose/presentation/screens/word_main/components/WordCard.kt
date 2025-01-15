@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_main.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,12 +27,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.smtersoyoglu.shuffleandlearncompose.data.model.WordItem
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.CardBackgroundColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.EnglishTextColor2
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.TurkishTextColor2
+import com.smtersoyoglu.shuffleandlearncompose.domain.model.WordItem
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.CardBackgroundColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.EnglishTextColor2
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaRegular
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaSemiBold
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.TurkishTextColor2
 
 @Composable
 fun WordCard(wordItem: WordItem, onClick: () -> Unit) {

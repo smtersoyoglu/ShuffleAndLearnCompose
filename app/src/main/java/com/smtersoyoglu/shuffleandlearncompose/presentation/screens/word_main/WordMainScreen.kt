@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.word_main
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,9 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.smtersoyoglu.shuffleandlearncompose.navigation.Screen
-import com.smtersoyoglu.shuffleandlearncompose.screens.word_main.components.WordCard
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaBold
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.HeaderColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.components.WordCard
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaBold
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.HeaderColor
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
