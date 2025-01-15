@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.aichat.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.aichat.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.BackgroundColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaSemiBold
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.BackgroundColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaSemiBold
 
 @Composable
 fun AppHeader() {

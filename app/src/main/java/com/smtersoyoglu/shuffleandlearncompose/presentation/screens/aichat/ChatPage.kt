@@ -1,13 +1,13 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.aichat
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.aichat
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.smtersoyoglu.shuffleandlearncompose.screens.aichat.components.AppHeader
-import com.smtersoyoglu.shuffleandlearncompose.screens.aichat.components.MessageInput
-import com.smtersoyoglu.shuffleandlearncompose.screens.aichat.components.MessageList
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.aichat.components.AppHeader
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.aichat.components.MessageInput
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.aichat.components.MessageList
 
 @Composable
 fun ChatPage(modifier: Modifier = Modifier,

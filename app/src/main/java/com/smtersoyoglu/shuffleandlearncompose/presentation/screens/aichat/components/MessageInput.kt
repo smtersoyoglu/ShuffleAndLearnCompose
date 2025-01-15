@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.aichat.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.aichat.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -17,10 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.focusedBorderColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.focusedLabelColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.unfocusedBorderColor
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.unfocusedLabelColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.focusedBorderColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.focusedLabelColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.unfocusedBorderColor
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.unfocusedLabelColor
 
 @Composable
 fun MessageInput(onMessageSend: (String) -> Unit) {

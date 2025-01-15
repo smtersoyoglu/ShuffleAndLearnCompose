@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.aichat.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.aichat.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,8 +18,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smtersoyoglu.shuffleandlearncompose.R
-import com.smtersoyoglu.shuffleandlearncompose.screens.aichat.MessageModel
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.Purple80
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.aichat.MessageModel
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.Purple80
 
 @Composable
 fun MessageList(modifier: Modifier = Modifier, messageList: List<MessageModel>) {

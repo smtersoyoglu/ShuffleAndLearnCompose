@@ -1,4 +1,4 @@
-package com.smtersoyoglu.shuffleandlearncompose.screens.aichat.components
+package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.aichat.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,10 +14,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.smtersoyoglu.shuffleandlearncompose.screens.aichat.MessageModel
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.ColorModelMessage
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.ColorUserMessage
-import com.smtersoyoglu.shuffleandlearncompose.ui.theme.FredokaRegular
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.aichat.MessageModel
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.ColorModelMessage
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.ColorUserMessage
+import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaRegular
 
 @Composable
 fun MessageRow(messageModel: MessageModel) {
@@ -44,7 +44,7 @@ fun MessageRow(messageModel: MessageModel) {
                     text = messageModel.message,
                     fontWeight = FontWeight.W500,
                     fontFamily = FredokaRegular,
-                    color = Color.White
+                    color = if (isModel) Color.White else Color.Black // Kullanıcı mesajı için siyah yazı
                 )
             }
         }
