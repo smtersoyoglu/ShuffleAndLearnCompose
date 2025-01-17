@@ -15,9 +15,9 @@ import com.smtersoyoglu.shuffleandlearncompose.domain.model.WordItem
 @Composable
 fun WordDetailContent(
     wordItem: WordItem,
-    onLearned: () -> Unit, // Öğrenildi butonu için callback
-    onBack: () -> Unit, // Geri dönüş işlemi
-    isLearned: Boolean // Kelimenin öğrenildi durumu
+    onLearned: () -> Unit,
+    onBack: () -> Unit,
+    isLearned: Boolean
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         // Sağ üstteki renk bloğu
@@ -35,7 +35,7 @@ fun WordDetailContent(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            WordImage(imageUrl = wordItem.imageUrl, description = wordItem.english)
+            WordImage(imageUrl = wordItem.url, description = wordItem.english)
 
             Spacer(modifier = Modifier.height(16.dp))
 

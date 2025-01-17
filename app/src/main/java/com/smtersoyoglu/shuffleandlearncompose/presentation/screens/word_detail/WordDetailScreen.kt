@@ -1,71 +1,62 @@
 package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.hilt.navigation.compose.hiltViewModel
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.DetailContract.UiEffect
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.DetailContract.UiAction
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.DetailContract.UiState
 import androidx.navigation.NavController
+import com.smtersoyoglu.shuffleandlearncompose.common.CollectWithLifecycle
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.components.WordDetailContent
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun WordDetailScreen(
     navController: NavController,
-    wordId: Int,
-    viewModel: WordDetailViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    uiState: UiState,
+    uiAction: (UiAction) -> Unit,
+    uiEffect: Flow<UiEffect>,
+    onNavigateBack: () -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-    val snackbarMessage by viewModel.snackbarMessage.collectAsState()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
-    // Kelimeyi yükle
-    LaunchedEffect(wordId) {
-        viewModel.fetchWordById(wordId)
-    }
-
-    // Snackbar'ı göster
-    LaunchedEffect(snackbarMessage) {
-        if (snackbarMessage != null) {
-            snackbarHostState.showSnackbar(snackbarMessage!!)
-            viewModel.clearSnackbarMessage()
+    uiEffect.CollectWithLifecycle { effect ->
+        when (effect) {
+            is UiEffect.ShowToast -> {
+                Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+            }
+            is UiEffect.NavigateToBack -> { onNavigateBack() }
         }
     }
 
     Box(modifier = modifier.fillMaxSize()) {
-        SnackbarHost(
-            hostState = snackbarHostState,
-            modifier = Modifier.align(Alignment.BottomCenter) // Snackbar ekranın altında görünür
-        )
-
         when {
             uiState.isLoading -> {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
             uiState.word != null -> {
-                uiState.word?.let { word ->
+                uiState.word.let { word ->
                     WordDetailContent(
                         wordItem = word,
-                        onLearned = { viewModel.toggleLearnedStatus(word) },
-                        onBack = { navController.popBackStack() },
+                        onLearned = { uiAction(UiAction.ToggleLearnedStatus(word)) },
+                        onBack = onNavigateBack ,
                         isLearned = word.isLearned
                     )
                 }
             }
             uiState.error != null -> {
                 Text(
-                    text = uiState.error ?: "Bir hata oluştu",
+                    text = uiState.error,
                     color = Color.Red,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.align(Alignment.Center)

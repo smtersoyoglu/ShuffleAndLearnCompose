@@ -93,7 +93,7 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
 
         // Coil kullanarak resmi yükleme
         AsyncImage(
-            model = wordItem.imageUrl,
+            model = wordItem.url,
             contentDescription = wordItem.english,
             modifier = Modifier
                 .size(size = 160.dp)

@@ -100,7 +100,7 @@ fun WordGameCard(wordItem: WordItem,) {
 
         // Coil kullanarak resmi yükleme
         AsyncImage(
-            model = wordItem.imageUrl,
+            model = wordItem.url,
             contentDescription = wordItem.english,
             modifier = Modifier
                 .size(size = 240.dp)
@@ -119,7 +119,7 @@ fun GameWordCardPreview() {
             id = 1,
             translation = "Elma",
             english = "Apple",
-            imageUrl = R.drawable.apple_card.toString(),
+            url = R.drawable.apple_card.toString(),
             sentence = "Bu bir elma.",
             isLearned = false
         )

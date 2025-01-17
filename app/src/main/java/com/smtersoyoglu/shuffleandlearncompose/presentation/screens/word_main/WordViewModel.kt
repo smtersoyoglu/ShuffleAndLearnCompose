@@ -2,7 +2,6 @@ package com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.smtersoyoglu.shuffleandlearncompose.domain.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.domain.usecase.FetchWordsUseCase
 import com.smtersoyoglu.shuffleandlearncompose.domain.usecase.GetLearnedWordsUseCase
 import com.smtersoyoglu.shuffleandlearncompose.domain.usecase.GetUnlearnedWordsUseCase
@@ -11,8 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
@@ -67,7 +64,6 @@ class WordViewModel @Inject constructor(
         }
     }
 
-    // Öğrenilmemiş kelimeleri gözlemle
     private fun observeUnlearnedWords() {
         getUnlearnedWordsUseCase()
             .onStart { _uiState.update { it.copy(isLoading = true) } }

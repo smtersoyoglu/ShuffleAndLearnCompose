@@ -5,14 +5,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavType
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.smtersoyoglu.shuffleandlearncompose.R
 import com.smtersoyoglu.shuffleandlearncompose.navigation.bottomnav.BottomNavBar
 import com.smtersoyoglu.shuffleandlearncompose.navigation.bottomnav.BottomNavItem
@@ -20,6 +20,7 @@ import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.aichat.ChatP
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.learned_words.LearnedWordsScreen
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.splash.SplashScreen
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.WordDetailScreen
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.WordDetailViewModel
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.WordGameScreen
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.WordMainScreen
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.BackgroundColor
@@ -30,84 +31,77 @@ fun WordNavGraph(modifier: Modifier = Modifier) {
 
     val bottomNavItems = listOf(
         BottomNavItem(
-            route = Screen.WordMainScreen.route,
+            route = Screens.WordMainScreen,
             title = "Home",
             icon = R.drawable.ic_home
         ),
         BottomNavItem(
-            route = Screen.LearnedWordsScreen.route,
+            route = Screens.LearnedWordsScreen,
             title = "Learned",
             icon = R.drawable.ic_learned
         ),
         BottomNavItem(
-            route = Screen.WordGameScreen.route,
+            route = Screens.WordGameScreen,
             title = "Game",
             icon = R.drawable.ic_matchword
         ),
         BottomNavItem(
-            route = Screen.ChatPage.route,
+            route = Screens.ChatPage,
             title = "ChatBot",
-            icon = R.drawable.ic_chatbot
+            icon = R.drawable.ic_aichat
         )
     )
 
+
+
     Scaffold(
         bottomBar = {
-            // Mevcut rota bilgisini kontrol et
             val currentRoute =
                 navController.currentBackStackEntryAsState().value?.destination?.route
-            // Sadece ana ekranlar için BottomNavBar göster
-            if (currentRoute in bottomNavItems.map { it.route }) {
+            if (Screens.shouldShowBottomBar(currentRoute)) {
                 BottomNavBar(navController = navController, items = bottomNavItems)
             }
         }
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.SplashScreen.route,
+            startDestination = Screens.SplashScreen,
             modifier = modifier
                 .fillMaxSize()
                 .background(BackgroundColor)
                 .padding(innerPadding)
         ) {
-            composable(route = Screen.SplashScreen.route) {
+            composable<Screens.SplashScreen> {
                 SplashScreen(navController = navController)
             }
 
-            composable(
-                route = Screen.WordMainScreen.route,
-            ) {
+            composable<Screens.WordMainScreen> {
                 WordMainScreen(navController = navController)
             }
 
-            composable(
-                route = Screen.LearnedWordsScreen.route,
-            ) {
+            composable<Screens.LearnedWordsScreen> {
                 LearnedWordsScreen(navController = navController)
             }
 
-            composable(
-                route = Screen.WordGameScreen.route,
-            ) {
+            composable<Screens.WordGameScreen> {
                 WordGameScreen(navController = navController)
             }
 
-            composable(
-                route = Screen.WordDetailScreen.route,
-                arguments = listOf(
-                    navArgument("wordId") { type = NavType.IntType }),
-            ) { backStackEntry ->
-                val wordId = backStackEntry.arguments?.getInt("wordId") ?: 0
+            composable<Screens.WordDetailScreen> { backStackEntry ->
+                backStackEntry.arguments?.getInt("wordId") ?: 0
+                val viewModel: WordDetailViewModel = hiltViewModel()
+                val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                val uiEffect = viewModel.uiEffect
                 WordDetailScreen(
                     navController = navController,
-                    wordId = wordId,
-                    viewModel = hiltViewModel(),
+                    uiState = uiState,
+                    uiAction = viewModel::onAction,
+                    uiEffect = uiEffect,
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
 
-            composable(
-                route = Screen.ChatPage.route,
-            ) {
+            composable<Screens.ChatPage> {
                 ChatPage(navController = navController)
             }
         }
