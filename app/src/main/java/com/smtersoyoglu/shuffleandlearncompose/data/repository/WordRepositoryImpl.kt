@@ -6,6 +6,7 @@ import com.smtersoyoglu.shuffleandlearncompose.data.remote.WordService
 import com.smtersoyoglu.shuffleandlearncompose.domain.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.domain.repository.WordRepository
 import com.smtersoyoglu.shuffleandlearncompose.common.Resource
+import com.smtersoyoglu.shuffleandlearncompose.data.network.safeCall
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -20,24 +21,16 @@ class WordRepositoryImpl @Inject constructor(
 
     // API'den veriyi alıp veritabanına kaydetme
     override suspend fun fetchAndSaveWords(): Resource<List<WordItem>> {
-        return try {
-            // API'den gelen DTO'ları Domain modeline çevir
+        return safeCall {
             val response = wordService.getWords()
             val domainWords = response.map { wordMapper.fromDtoToDomain(it) }
-
-            // Domain modelini Room için Entity'ye çevirip kaydet
             wordDao.insertWords(domainWords.map { wordMapper.fromDomainToEntity(it) })
-
-            // Domain modelini döndür
-            Resource.Success(domainWords)
-        } catch (e: Exception) {
-            Resource.Error("Error fetching words: ${e.message}")
+            domainWords
         }
     }
 
     // Veritabanındaki tüm kelimeleri alma
     override fun getAllWords(): Flow<Resource<List<WordItem>>> = flow {
-        emit(Resource.Loading())
         wordDao.getAllWords()
             .map { entities ->
                 Resource.Success(entities.map { wordMapper.fromEntityToDomain(it) })
@@ -51,7 +44,6 @@ class WordRepositoryImpl @Inject constructor(
 
     // Öğrenilmemiş kelimeleri alma
     override fun getUnlearnedWords(): Flow<Resource<List<WordItem>>> = flow {
-        emit(Resource.Loading())
         wordDao.getUnlearnedWords()
             .map { entities ->
                 Resource.Success(entities.map { wordMapper.fromEntityToDomain(it) }) // Entity -> Domain
@@ -65,7 +57,6 @@ class WordRepositoryImpl @Inject constructor(
 
     // Öğrenilmiş kelimeleri alma
     override fun getLearnedWords(): Flow<Resource<List<WordItem>>> = flow {
-        emit(Resource.Loading())
         wordDao.getLearnedWords()
             .map { entities ->
                 Resource.Success(entities.map { wordMapper.fromEntityToDomain(it) })  // Entity -> Domain
@@ -76,18 +67,13 @@ class WordRepositoryImpl @Inject constructor(
             .collect { emit(it) }
     }
 
-
     // Belirli bir kelimeyi ID ile alma
     override suspend fun getWordById(id: Int): Resource<WordItem?> {
-        return try {
+        return safeCall {
             val wordEntity = wordDao.getWordById(id)
-            if (wordEntity != null) {
-                Resource.Success(wordMapper.fromEntityToDomain(wordEntity)) // Domain modelini döndür
-            } else {
-                Resource.Error("Word not found with id: $id")
-            }
-        } catch (e: Exception) {
-            Resource.Error("Error fetching word by id: ${e.message}")
+            wordEntity?.let {
+                wordMapper.fromEntityToDomain(it)
+            } ?: throw Exception("Word not found with id: $id")
         }
     }
 

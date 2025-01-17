@@ -5,7 +5,7 @@ data class WordItem(
     val translation: String,
     val english: String,
     val imageUrl: String,
-    val sentence: String = "",
+    val sentence: String,
     val isLearned: Boolean,
 )
 

@@ -10,10 +10,10 @@ class WordMapper @Inject constructor() {
     fun fromDtoToDomain(dto: WordDto): WordItem {
         return WordItem(
             id = dto.id,
-            translation = dto.translation,
-            english = dto.english,
-            imageUrl = dto.imageUrl,
-            sentence = dto.sentence ?: "",
+            translation = dto.translation.orEmpty(),
+            english = dto.english.orEmpty(),
+            imageUrl = dto.url.orEmpty(),
+            sentence = dto.sentence.orEmpty(),
             isLearned = false
         )
     }
@@ -22,10 +22,10 @@ class WordMapper @Inject constructor() {
     fun fromEntityToDomain(entity: WordEntity): WordItem {
         return WordItem(
             id = entity.id,
-            translation = entity.translation,
-            english = entity.english,
-            imageUrl = entity.imageUrl,
-            sentence = entity.sentence,
+            translation = entity.translation.orEmpty(),
+            english = entity.english.orEmpty(),
+            imageUrl = entity.url.orEmpty(),
+            sentence = entity.sentence.orEmpty(),
             isLearned = entity.isLearned
         )
     }
@@ -35,7 +35,7 @@ class WordMapper @Inject constructor() {
             id = domain.id,
             translation = domain.translation,
             english = domain.english,
-            imageUrl = domain.imageUrl,
+            url = domain.imageUrl,
             sentence = domain.sentence,
             isLearned = domain.isLearned
         )

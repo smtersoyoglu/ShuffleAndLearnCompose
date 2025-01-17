@@ -17,7 +17,6 @@ class FetchShuffledWordsUseCase @Inject constructor(
                 is Resource.Error -> Resource.Error(
                     resource.message ?: "An error occurred while fetching words."
                 )
-                is Resource.Loading -> Resource.Loading()
             }
         }
     }
