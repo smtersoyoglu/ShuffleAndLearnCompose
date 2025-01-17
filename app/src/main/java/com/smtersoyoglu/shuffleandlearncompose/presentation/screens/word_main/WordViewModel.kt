@@ -67,7 +67,6 @@ class WordViewModel @Inject constructor(
         }
     }
 
-    // Öğrenilmemiş kelimeleri gözlemle
     private fun observeUnlearnedWords() {
         getUnlearnedWordsUseCase()
             .onStart { _uiState.update { it.copy(isLoading = true) } }

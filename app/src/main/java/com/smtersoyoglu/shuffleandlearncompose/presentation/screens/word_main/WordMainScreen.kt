@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.smtersoyoglu.shuffleandlearncompose.navigation.Screen
+import com.smtersoyoglu.shuffleandlearncompose.navigation.Screens
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.components.WordCard
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaBold
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.HeaderColor
@@ -44,16 +44,13 @@ fun WordMainScreen(
     viewModel: WordViewModel = hiltViewModel(),
     navController: NavController,
 ) {
-// ViewModel'deki uiState (StateFlow) değişikliklerini dinleyerek,
-// Compose ekranında sürekli güncellenen bir state oluşturur.
-// Bu sayede Flow'da bir değişiklik olduğunda UI otomatik olarak yeniden çizilir.
-    val uiState by viewModel.uiState.collectAsState() // collectAsState(), yalnızca Flow veya LiveData gibi reaktif veri yapılarını dinlemek için kullanılır
+
+    val uiState by viewModel.uiState.collectAsState()
     var shuffledWords by remember { mutableStateOf(uiState.words) }
 
     val pullToRefreshState = rememberPullToRefreshState()
 
     LaunchedEffect(uiState.words) {
-        // ViewModel'den gelen kelimeler değiştiğinde shuffledWords güncellenir
         shuffledWords = uiState.words
     }
 
@@ -95,7 +92,7 @@ fun WordMainScreen(
                     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
                         items(shuffledWords) { word ->
                             WordCard(wordItem = word) {
-                                navController.navigate(Screen.WordDetailScreen.createRoute(word.id))
+                                navController.navigate(Screens.WordDetailScreen(word.id))
                             }
                         }
                     }

@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.smtersoyoglu.shuffleandlearncompose.R
-import com.smtersoyoglu.shuffleandlearncompose.navigation.Screen
+import com.smtersoyoglu.shuffleandlearncompose.navigation.Screens
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.learned_words.components.LottieEmptyState
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.components.WordCard
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.BackgroundColor
@@ -52,8 +52,8 @@ fun LearnedWordsScreen(
             learnedWordsState.learnedWords.isNotEmpty() -> {
                 LazyVerticalGrid(columns = GridCells.Fixed(2)) {
                     items(learnedWordsState.learnedWords) { word ->
-                        WordCard(wordItem = word) { // word_main'den alıyoruz tasarim olarak WordMain ile LearnedScreen ayni oldugundan dolayi.
-                            navController.navigate(Screen.WordDetailScreen.createRoute(word.id))
+                        WordCard(wordItem = word) {
+                            navController.navigate(Screens.WordDetailScreen(word.id))
                         }
                     }
                 }

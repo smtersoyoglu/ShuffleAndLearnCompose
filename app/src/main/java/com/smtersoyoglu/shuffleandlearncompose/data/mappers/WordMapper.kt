@@ -12,7 +12,7 @@ class WordMapper @Inject constructor() {
             id = dto.id,
             translation = dto.translation.orEmpty(),
             english = dto.english.orEmpty(),
-            imageUrl = dto.url.orEmpty(),
+            url = dto.url.orEmpty(),
             sentence = dto.sentence.orEmpty(),
             isLearned = false
         )
@@ -24,7 +24,7 @@ class WordMapper @Inject constructor() {
             id = entity.id,
             translation = entity.translation.orEmpty(),
             english = entity.english.orEmpty(),
-            imageUrl = entity.url.orEmpty(),
+            url = entity.url.orEmpty(),
             sentence = entity.sentence.orEmpty(),
             isLearned = entity.isLearned
         )
@@ -35,7 +35,7 @@ class WordMapper @Inject constructor() {
             id = domain.id,
             translation = domain.translation,
             english = domain.english,
-            url = domain.imageUrl,
+            url = domain.url,
             sentence = domain.sentence,
             isLearned = domain.isLearned
         )

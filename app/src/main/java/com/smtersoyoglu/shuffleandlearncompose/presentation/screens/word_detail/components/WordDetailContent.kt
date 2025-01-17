@@ -35,7 +35,7 @@ fun WordDetailContent(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            WordImage(imageUrl = wordItem.imageUrl, description = wordItem.english)
+            WordImage(imageUrl = wordItem.url, description = wordItem.english)
 
             Spacer(modifier = Modifier.height(16.dp))
 

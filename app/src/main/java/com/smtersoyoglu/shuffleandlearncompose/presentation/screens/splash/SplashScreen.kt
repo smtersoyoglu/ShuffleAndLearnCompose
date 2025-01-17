@@ -27,7 +27,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.smtersoyoglu.shuffleandlearncompose.R
-import com.smtersoyoglu.shuffleandlearncompose.navigation.Screen
+import com.smtersoyoglu.shuffleandlearncompose.navigation.Screens
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.BackgroundColor
 import kotlinx.coroutines.delay
 
@@ -51,8 +51,8 @@ fun SplashScreen(navController: NavController) {
 
     LaunchedEffect(Unit) {
         delay(3000)
-        navController.navigate(Screen.WordMainScreen.route) {
-            popUpTo(Screen.SplashScreen.route) {
+        navController.navigate(Screens.WordMainScreen) {
+            popUpTo(Screens.SplashScreen) {
                 inclusive = true
             }
         }

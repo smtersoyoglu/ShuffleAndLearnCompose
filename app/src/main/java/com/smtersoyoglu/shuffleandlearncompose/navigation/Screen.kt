@@ -1,14 +1,40 @@
 package com.smtersoyoglu.shuffleandlearncompose.navigation
 
-sealed class Screen(val route: String) {
-    data object WordMainScreen : Screen(route = "word_main_screen")
-    data object LearnedWordsScreen : Screen(route = "learnedWordsScreen")
-    data object WordGameScreen : Screen(route = "wordGameScreen")
-    data object WordDetailScreen : Screen(route = "word_detail_screen/{wordId}") {
-        fun createRoute(wordId: Int) = "word_detail_screen/$wordId"
+
+import kotlinx.serialization.Serializable
+
+sealed interface Screens {
+    @Serializable
+    data object WordMainScreen : Screens
+
+    @Serializable
+    data object LearnedWordsScreen : Screens
+
+    @Serializable
+    data object WordGameScreen : Screens
+
+    @Serializable
+    data class WordDetailScreen(val wordId: Int) : Screens
+
+    @Serializable
+    data object ChatPage : Screens
+
+    @Serializable
+    data object SplashScreen : Screens
+
+    companion object {
+        fun getRoute(screen: Screens): String {
+            return screen::class.qualifiedName.orEmpty()
+        }
+
+        fun shouldShowBottomBar(currentRoute: String?): Boolean {
+            return when (currentRoute) {
+                getRoute(WordMainScreen), getRoute(LearnedWordsScreen), getRoute(WordGameScreen), getRoute(
+                    ChatPage
+                ) -> true
+
+                else -> false
+            }
+        }
     }
-
-    data object ChatPage : Screen(route = "chatPage")
-
-    data object SplashScreen : Screen(route = "splash_screen")
 }

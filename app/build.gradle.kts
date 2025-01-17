@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -85,6 +86,9 @@ dependencies {
 
     //lottieanim
     implementation(libs.lottie.compose)
+
+    // serialization
+    implementation(libs.serialization.json)
 
     //geminiai
     implementation(libs.generativeai)
