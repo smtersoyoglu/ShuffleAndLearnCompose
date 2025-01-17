@@ -14,7 +14,7 @@ class WordMapper @Inject constructor() {
             english = dto.english,
             imageUrl = dto.imageUrl,
             sentence = dto.sentence ?: "",
-            isLearned = dto.isLearned
+            isLearned = false
         )
     }
 

@@ -26,24 +26,36 @@ fun TTSButton(textToSpeak: String) {
         tts = TextToSpeech(context) { status ->
             if (status == TextToSpeech.SUCCESS) {
                 tts?.language = Locale.US // İngilizce dil ayarı
+                Log.d("TTS", "Text-to-Speech initialized successfully")
             } else {
-                Log.e("TTS", "Text-to-Speech initialization failed")
+                Log.e("TTS", "Text-to-Speech initialization failed with status $status")
             }
         }
         onDispose {
             tts?.stop()
             tts?.shutdown()
+            Log.d("TTS", "Text-to-Speech stopped and shutdown")
         }
     }
 
     // Hoparlör ikonu
     IconButton(
         onClick = {
-            tts?.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null, null)
+            // Eğer TTS nesnesi varsa ve başlangıç başarılıysa konuşma işlemini başlat
+            if (tts != null && tts?.isSpeaking == false) {
+                val result = tts?.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null, null)
+                if (result == TextToSpeech.ERROR) {
+                    Log.e("TTS", "Error occurred while speaking")
+                } else {
+                    Log.d("TTS", "Speaking: $textToSpeak")
+                }
+            } else {
+                Log.w("TTS", "TTS is either not initialized or already speaking")
+            }
         }
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.sound), // Hoparlör ikonu için bir drawable ekle
+            painter = painterResource(id = R.drawable.sound), // Hoparlör ikonu
             contentDescription = "Play pronunciation",
             tint = IconTintColor,
         )
