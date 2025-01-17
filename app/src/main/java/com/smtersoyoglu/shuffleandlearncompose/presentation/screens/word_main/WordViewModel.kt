@@ -13,6 +13,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -22,35 +26,32 @@ import javax.inject.Inject
 class WordViewModel @Inject constructor(
     private val fetchWordsUseCase: FetchWordsUseCase,
     private val getUnlearnedWordsUseCase: GetUnlearnedWordsUseCase,
-    private val getLearnedWordsUseCase: GetLearnedWordsUseCase
+    private val getLearnedWordsUseCase: GetLearnedWordsUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(WordState())
     val uiState: StateFlow<WordState> = _uiState.asStateFlow()
 
     init {
-        fetchWordsFromApi()
+        fetchWordsAndCheckLearned()
         observeUnlearnedWords()
     }
 
-    // API'den kelimeleri al ve veritabanına kaydet
-    private fun fetchWordsFromApi() {
+    private fun fetchWordsAndCheckLearned() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            val learnedWordsFlow = getLearnedWordsUseCase()
 
-            lateinit var learnedWords: List<WordItem>
-            learnedWordsFlow.collect { result ->
-                if (result is Resource.Success) {
-                    learnedWords = result.data ?: emptyList()
-                }
-            }
+            val learnedWords = getLearnedWordsUseCase()
+                .firstOrNull()
+                ?.data
+                ?: emptyList()
 
             if (learnedWords.isEmpty()) {
                 when (val result = fetchWordsUseCase()) {
                     is Resource.Success -> {
                         _uiState.update { it.copy(isLoading = false) }
                     }
+
                     is Resource.Error -> {
                         _uiState.update {
                             it.copy(
@@ -59,9 +60,6 @@ class WordViewModel @Inject constructor(
                             )
                         }
                     }
-                    is Resource.Loading -> {
-                        _uiState.update { it.copy(isLoading = true) }
-                    }
                 }
             } else {
                 _uiState.update { it.copy(isLoading = false) }
@@ -69,27 +67,22 @@ class WordViewModel @Inject constructor(
         }
     }
 
-
     // Öğrenilmemiş kelimeleri gözlemle
     private fun observeUnlearnedWords() {
-        viewModelScope.launch {
-            getUnlearnedWordsUseCase()
-                .onStart { _uiState.update { it.copy(isLoading = true) } }
-                .catch { exception ->
-                    _uiState.update { it.copy(error = "Error fetching unlearned words: ${exception.message}", isLoading = false) }
-                }
-                .collectLatest { result ->
-                    when (result) {
-                        is Resource.Success -> _uiState.update {
-                            it.copy(words = result.data ?: emptyList(), isLoading = false)
-                        }
-                        is Resource.Error -> _uiState.update {
-                            it.copy(error = result.message ?: "Unknown error", isLoading = false)
-                        }
-                        is Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
+        getUnlearnedWordsUseCase()
+            .onStart { _uiState.update { it.copy(isLoading = true) } }
+            .onCompletion { _uiState.update { it.copy(isLoading = false) } }
+            .onEach { resource ->
+                when (resource) {
+                    is Resource.Success -> {
+                        _uiState.update { it.copy(words = resource.data ?: emptyList()) }
+                    }
+
+                    is Resource.Error -> {
+                        _uiState.update { it.copy(error = resource.message ?: "Unknown error") }
                     }
                 }
-        }
+            }.launchIn(viewModelScope)
     }
 }
 

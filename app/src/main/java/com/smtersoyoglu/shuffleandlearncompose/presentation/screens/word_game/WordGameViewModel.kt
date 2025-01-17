@@ -11,6 +11,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +23,7 @@ import javax.inject.Inject
 class WordGameViewModel @Inject constructor(
     private val fetchShuffledWordsUseCase: FetchShuffledWordsUseCase,
     private val checkAnswerUseCase: CheckWordAnswerUseCase,
-    private val resetGameUseCase: ResetGameUseCase
+    private val resetGameUseCase: ResetGameUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(WordGameUiState())
@@ -36,27 +40,27 @@ class WordGameViewModel @Inject constructor(
     }
 
     private fun fetchWords() {
-        viewModelScope.launch {
-            fetchShuffledWordsUseCase().collect { result ->
+        fetchShuffledWordsUseCase()
+            .onStart { _uiState.update { it.copy(isLoading = true) } }
+            .onCompletion { _uiState.update { it.copy(isLoading = false) } }
+            .onEach { result ->
                 when (result) {
                     is Resource.Success -> {
                         val shuffledWords = result.data ?: emptyList()
                         _uiState.update {
                             it.copy(
                                 wordList = shuffledWords,
-                                currentWord = shuffledWords.firstOrNull()
+                                currentWord = shuffledWords.firstOrNull(),
+                                isLoading = false
                             )
                         }
                     }
+
                     is Resource.Error -> {
-                        _uiState.update { it.copy(error = result.message) }
-                    }
-                    is Resource.Loading -> {
-                        _uiState.update { it.copy(isLoading = true) }
+                        _uiState.update { it.copy(error = result.message, isLoading = false) }
                     }
                 }
-            }
-        }
+            }.launchIn(viewModelScope)
     }
 
     fun checkAnswer(userAnswer: String) {

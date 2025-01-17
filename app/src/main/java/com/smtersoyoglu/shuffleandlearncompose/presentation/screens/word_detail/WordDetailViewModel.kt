@@ -27,9 +27,9 @@ class WordDetailViewModel @Inject constructor(
     val snackbarMessage: StateFlow<String?> = _snackbarMessage.asStateFlow()
 
     fun fetchWordById(wordId: Int) {
+        _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            val result = getWordByIdUseCase(wordId)
-            when (result) {
+            when (val result = getWordByIdUseCase(wordId)) {
                 is Resource.Success -> {
                     _uiState.update {
                         it.copy(word = result.data, isLoading = false, error = null)
@@ -42,9 +42,6 @@ class WordDetailViewModel @Inject constructor(
                             error = result.message ?: "Failed to fetch word"
                         )
                     }
-                }
-                is Resource.Loading -> {
-                    _uiState.update { it.copy(isLoading = true) }
                 }
             }
         }
