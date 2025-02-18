@@ -10,6 +10,9 @@ import com.smtersoyoglu.shuffleandlearncompose.domain.usecase.ToggleWordLearnedS
 import com.smtersoyoglu.shuffleandlearncompose.common.Resource
 import com.smtersoyoglu.shuffleandlearncompose.navigation.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.DetailContract.UiAction
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.DetailContract.UiEffect
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.DetailContract.UiState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,15 +26,15 @@ import javax.inject.Inject
 class WordDetailViewModel @Inject constructor(
     private val getWordByIdUseCase: GetWordByIdUseCase,
     private val toggleWordLearnedStatusUseCase: ToggleWordLearnedStatusUseCase,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private var _uiState: MutableStateFlow<DetailContract.UiState> =
-        MutableStateFlow(DetailContract.UiState())
+    private var _uiState: MutableStateFlow<UiState> =
+        MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _uiEffect by lazy { Channel<DetailContract.UiEffect>() }
-    val uiEffect: Flow<DetailContract.UiEffect> by lazy { _uiEffect.receiveAsFlow() }
+    private val _uiEffect by lazy { Channel<UiEffect>() }
+    val uiEffect: Flow<UiEffect> by lazy { _uiEffect.receiveAsFlow() }
 
     private val args = savedStateHandle.toRoute<Screens.WordDetailScreen>()
 
@@ -39,23 +42,29 @@ class WordDetailViewModel @Inject constructor(
         fetchWordById(args.wordId)
     }
 
-    fun onAction(action: DetailContract.UiAction) {
+    fun onAction(action: UiAction) {
         when (action) {
-            is DetailContract.UiAction.ToggleLearnedStatus -> {
+            is UiAction.ToggleLearnedStatus -> {
                 toggleLearnedStatus(action.word)
             }
         }
     }
 
     private fun fetchWordById(wordId: Int) {
-        _uiState.update { it.copy(isLoading = true) }
+        updateState { copy(isLoading = true) }
         viewModelScope.launch {
             when (val result = getWordByIdUseCase(wordId)) {
                 is Resource.Success -> {
                     updateState { copy(word = result.data, isLoading = false, error = null) }
                 }
+
                 is Resource.Error -> {
-                    updateState { copy(isLoading = false, error = result.message ?: "Failed to fetch word") }
+                    updateState {
+                        copy(
+                            isLoading = false,
+                            error = result.message ?: "Failed to fetch word"
+                        )
+                    }
                 }
             }
         }
@@ -71,20 +80,20 @@ class WordDetailViewModel @Inject constructor(
                 } else {
                     "Kelime Öğrenilenler Listesinden Çıkarıldı"
                 }
-                emitUiEffect(DetailContract.UiEffect.ShowToast(message = message))
+                emitUiEffect(UiEffect.ShowToast(message = message))
             } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(error = "Failed to update word: ${e.message}")
+                updateState {
+                    copy(error = "Failed to update word: ${e.message}")
                 }
             }
         }
     }
 
-    private fun updateState(block: DetailContract.UiState.() -> DetailContract.UiState) {
+    private fun updateState(block: UiState.() -> UiState) {
         _uiState.update(block)
     }
 
-    private suspend fun emitUiEffect(uiEffect: DetailContract.UiEffect) {
+    private suspend fun emitUiEffect(uiEffect: UiEffect) {
         _uiEffect.send(uiEffect)
     }
 }

@@ -14,14 +14,12 @@ import androidx.compose.ui.text.style.TextAlign
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.DetailContract.UiEffect
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.DetailContract.UiAction
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.DetailContract.UiState
-import androidx.navigation.NavController
 import com.smtersoyoglu.shuffleandlearncompose.common.CollectWithLifecycle
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.components.WordDetailContent
 import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun WordDetailScreen(
-    navController: NavController,
     modifier: Modifier = Modifier,
     uiState: UiState,
     uiAction: (UiAction) -> Unit,
