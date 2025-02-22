@@ -17,47 +17,55 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import com.smtersoyoglu.shuffleandlearncompose.navigation.Screens
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.WordContract.UiEffect
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.WordContract.UiAction
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.WordContract.UiState
+import com.smtersoyoglu.shuffleandlearncompose.common.CollectWithLifecycle
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.components.WordCard
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaBold
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.HeaderColor
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WordMainScreen(
-    viewModel: WordViewModel = hiltViewModel(),
-    navController: NavController,
+    uiState: UiState,
+    uiAction: (UiAction) -> Unit,
+    uiEffect: Flow<UiEffect>,
+    onNavigateDetail: (Int) -> Unit,
 ) {
+    uiEffect.CollectWithLifecycle { effect ->
+        when (effect) {
+            is UiEffect.NavigateToDetail -> onNavigateDetail(effect.wordId)
+        }
+    }
 
-    val uiState by viewModel.uiState.collectAsState()
-    var shuffledWords by remember { mutableStateOf(uiState.words) }
+    // Her ekran görüntülendiğinde shuffle'ı resetleme
+    DisposableEffect(Unit) {
+        uiAction(UiAction.ResetShuffle)
+        onDispose { }
+    }
+
 
     val pullToRefreshState = rememberPullToRefreshState()
 
-    LaunchedEffect(uiState.words) {
-        shuffledWords = uiState.words
-    }
-
     if (pullToRefreshState.isRefreshing) {
         LaunchedEffect(pullToRefreshState.isRefreshing) {
-            shuffledWords = uiState.words.shuffled()
-            delay(500L) // 1 saniye bekleme
+            uiAction(UiAction.ShuffleWords)
+            delay(500L)
             pullToRefreshState.endRefresh()
         }
     }
@@ -67,6 +75,10 @@ fun WordMainScreen(
             .fillMaxSize()
             .nestedScroll(pullToRefreshState.nestedScrollConnection)
     ) {
+        val displayWords = uiState.shuffledWords.ifEmpty {
+            uiState.words
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -87,17 +99,18 @@ fun WordMainScreen(
 
             when {
                 uiState.isLoading -> CircularProgressIndicator()
-                uiState.error != null -> Text(uiState.error!!, color = Color.Red)
+                uiState.error != null -> Text(uiState.error, color = Color.Red)
                 else ->
                     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-                        items(shuffledWords) { word ->
+                        items(displayWords) { word ->
                             WordCard(wordItem = word) {
-                                navController.navigate(Screens.WordDetailScreen(word.id))
+                                uiAction(UiAction.OnWordClicked(word.id))
                             }
                         }
                     }
             }
         }
+
         if (pullToRefreshState.isRefreshing) {
             PullToRefreshContainer(
                 modifier = Modifier
@@ -107,4 +120,17 @@ fun WordMainScreen(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun WordMainScreenPreview(
+    @PreviewParameter(WordMainPreviewProvider::class) uiState: UiState,
+) {
+    WordMainScreen(
+        uiState = uiState,
+        uiAction = {},
+        uiEffect = emptyFlow(),
+        onNavigateDetail = {}
+    )
 }

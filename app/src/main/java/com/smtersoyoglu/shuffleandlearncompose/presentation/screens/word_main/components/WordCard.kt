@@ -54,8 +54,9 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
                 .height(184.dp)
 
         ) {
-            Column (
-                modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 15.dp, vertical = 10.dp)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -91,7 +92,6 @@ fun WordCard(wordItem: WordItem, onClick: () -> Unit) {
             }
         }
 
-        // Coil kullanarak resmi yükleme
         AsyncImage(
             model = wordItem.url,
             contentDescription = wordItem.english,
