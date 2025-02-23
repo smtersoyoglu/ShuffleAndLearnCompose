@@ -8,13 +8,19 @@ import com.smtersoyoglu.shuffleandlearncompose.domain.usecase.ResetGameUseCase
 import com.smtersoyoglu.shuffleandlearncompose.common.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.GameContract.UiState
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.GameContract.UiAction
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.GameContract.UiEffect
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,13 +32,27 @@ class WordGameViewModel @Inject constructor(
     private val resetGameUseCase: ResetGameUseCase,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(WordGameUiState())
-    val uiState: StateFlow<WordGameUiState> = _uiState
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState: StateFlow<UiState> = _uiState
+
+    private val _uiEffect by lazy { Channel<UiEffect>() }
+    val uiEffect: Flow<UiEffect> by lazy { _uiEffect.receiveAsFlow() }
 
     private var timerJob: Job? = null
 
     init {
-        startGame()
+        onAction(UiAction.StartGame)
+    }
+
+    fun onAction(action: UiAction) {
+        when (action) {
+            is UiAction.StartGame -> startGame()
+            is UiAction.ResetGame -> resetGame()
+            is UiAction.SubmitAnswer -> checkAnswer(action.userAnswer)
+            is UiAction.ExitGame -> {
+                viewModelScope.launch { emitUiEffect(UiEffect.NavigateToMainScreen) }
+            }
+        }
     }
 
     private fun startGame() {
@@ -41,14 +61,14 @@ class WordGameViewModel @Inject constructor(
 
     private fun fetchWords() {
         fetchShuffledWordsUseCase()
-            .onStart { _uiState.update { it.copy(isLoading = true) } }
-            .onCompletion { _uiState.update { it.copy(isLoading = false) } }
+            .onStart { updateState { copy(isLoading = true) } }
+            .onCompletion { updateState { copy(isLoading = false) } }
             .onEach { result ->
                 when (result) {
                     is Resource.Success -> {
                         val shuffledWords = result.data ?: emptyList()
-                        _uiState.update {
-                            it.copy(
+                        updateState {
+                            copy(
                                 wordList = shuffledWords,
                                 currentWord = shuffledWords.firstOrNull(),
                                 isLoading = false
@@ -57,27 +77,27 @@ class WordGameViewModel @Inject constructor(
                     }
 
                     is Resource.Error -> {
-                        _uiState.update { it.copy(error = result.message, isLoading = false) }
+                        updateState { copy(error = result.message, isLoading = false) }
                     }
                 }
             }.launchIn(viewModelScope)
     }
 
-    fun checkAnswer(userAnswer: String) {
+    private fun checkAnswer(userAnswer: String) {
         val currentWord = _uiState.value.currentWord ?: return
         val isCorrect = checkAnswerUseCase(currentWord, userAnswer)
 
-        _uiState.update {
-            it.copy(
+        updateState {
+            copy(
                 isCorrect = isCorrect,
-                correctCount = if (isCorrect) it.correctCount + 1 else it.correctCount,
-                incorrectCount = if (!isCorrect) it.incorrectCount + 1 else it.incorrectCount,
-                currentWord = it.wordList?.getOrNull(it.wordList.indexOf(currentWord) + 1)
+                correctCount = if (isCorrect) correctCount + 1 else correctCount,
+                incorrectCount = if (!isCorrect) incorrectCount + 1 else incorrectCount,
+                currentWord = wordList?.getOrNull(wordList.indexOf(currentWord) + 1)
             )
         }
 
-        if (_uiState.value.currentWord == null) {
-            _uiState.update { it.copy(isGameOver = true) }
+        if (_uiState.value.currentWord == null || _uiState.value.timer <= 0) {
+            updateState { copy(isGameOver = true) }
             timerJob?.cancel()
         }
     }
@@ -86,22 +106,32 @@ class WordGameViewModel @Inject constructor(
         timerJob?.cancel()
         timerJob = viewModelScope.launch {
             for (time in 60 downTo 0) {
-                _uiState.update { it.copy(timer = time) }
+                updateState { copy(timer = time) }
                 delay(1000)
             }
-            _uiState.update { it.copy(isGameOver = true) }
+            updateState { copy(isGameOver = true) }
         }
     }
 
-    fun resetGame() {
+    private fun resetGame() {
         timerJob?.cancel()
         viewModelScope.launch {
-            val newState = resetGameUseCase().let { it }
-            _uiState.value = newState
-            fetchWords() // Yeni kelimeleri getir
-            startTimer() // Zamanlayıcıyı başlat
+            resetGameUseCase().let { newState ->
+                _uiState.value = newState
+            }
+            fetchWords()
+            startTimer()
         }
     }
+
+    private fun updateState(block: UiState.() -> UiState) {
+        _uiState.update(block)
+    }
+
+    private suspend fun emitUiEffect(uiEffect: UiEffect) {
+        _uiEffect.send(uiEffect)
+    }
+
 }
 
 
