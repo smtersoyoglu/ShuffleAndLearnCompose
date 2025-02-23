@@ -9,38 +9,49 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.smtersoyoglu.shuffleandlearncompose.R
+import com.smtersoyoglu.shuffleandlearncompose.common.CollectWithLifecycle
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components.AnimatedResponse
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components.AnswerInputField
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components.GameOverDialog
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components.ScoreDisplay
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components.TimerDisplay
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.components.WordGameCard
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.GameContract.UiAction
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.GameContract.UiEffect
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.GameContract.UiState
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.BackgroundColor
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun WordGameScreen(
-    navController: NavController,
-    viewModel: WordGameViewModel = hiltViewModel(),
+    uiState: UiState,
+    uiAction: (UiAction) -> Unit,
+    uiEffect: Flow<UiEffect>,
+    onNavigateMain: () -> Unit,
 ) {
-    val uiState by viewModel.uiState.collectAsState()
 
+    uiEffect.CollectWithLifecycle { effect ->
+        when (effect) {
+            is UiEffect.NavigateToMainScreen -> { onNavigateMain() }
+        }
+    }
 
     if (uiState.isGameOver) {
         GameOverDialog(
             correctCount = uiState.correctCount,
             incorrectCount = uiState.incorrectCount,
             onRetry = {
-                viewModel.resetGame()
+                uiAction(UiAction.ResetGame)
             },
-            onExit = { navController.navigate("word_main_screen") })
+            onExit = { uiAction(UiAction.ExitGame) }
+        )
     } else {
         Column(
             modifier = Modifier
@@ -70,7 +81,7 @@ fun WordGameScreen(
             // Cevap Girdisi ve Kontrol Etme Butonu
             AnswerInputField(
                 onAnswerSubmit = { userAnswer ->
-                    viewModel.checkAnswer(userAnswer)
+                    uiAction(UiAction.SubmitAnswer(userAnswer))
                 }
             )
 
@@ -85,4 +96,17 @@ fun WordGameScreen(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun WordGameScreenPreview(
+    @PreviewParameter(WordGamePreviewProvider::class) uiState: UiState,
+) {
+    WordGameScreen(
+        uiState = uiState,
+        uiAction = {},
+        uiEffect = emptyFlow(),
+        onNavigateMain = {}
+    )
 }

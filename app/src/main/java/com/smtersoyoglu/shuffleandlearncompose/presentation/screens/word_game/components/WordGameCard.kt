@@ -29,14 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import coil.compose.AsyncImage
-import com.smtersoyoglu.shuffleandlearncompose.R
 import com.smtersoyoglu.shuffleandlearncompose.domain.model.WordItem
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.CardBackgroundColor
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.FredokaSemiBold
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.TurkishTextColor2
 
 @Composable
-fun WordGameCard(wordItem: WordItem,) {
+fun WordGameCard(wordItem: WordItem) {
 
     Box(
         modifier = Modifier
@@ -98,7 +97,6 @@ fun WordGameCard(wordItem: WordItem,) {
             }
         }
 
-        // Coil kullanarak resmi yükleme
         AsyncImage(
             model = wordItem.url,
             contentDescription = wordItem.english,
@@ -119,8 +117,8 @@ fun GameWordCardPreview() {
             id = 1,
             translation = "Elma",
             english = "Apple",
-            url = R.drawable.apple_card.toString(),
-            sentence = "Bu bir elma.",
+            url = "",
+            sentence = "",
             isLearned = false
         )
 
