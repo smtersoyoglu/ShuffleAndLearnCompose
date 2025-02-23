@@ -45,7 +45,7 @@ class WordViewModel @Inject constructor(
 
     fun onAction(action: UiAction) {
         when (action) {
-            is UiAction.OnWordClicked -> _uiEffect.trySend(UiEffect.NavigateToDetail(action.wordId))
+            is UiAction.OnWordClicked -> viewModelScope.launch { emitUiEffect(UiEffect.NavigateToDetail(action.wordId)) }
             is UiAction.ShuffleWords -> shuffleWords()
             is UiAction.ResetShuffle -> resetShuffle()
         }
@@ -110,20 +110,21 @@ class WordViewModel @Inject constructor(
 
     private fun shuffleWords() {
         val shuffled = _uiState.value.words.shuffled()
-        _uiState.update {
-            it.copy(shuffledWords = shuffled)
-        }
+        updateState { copy(shuffledWords = shuffled) }
     }
 
     private fun resetShuffle() {
-        _uiState.update {
-            it.copy(shuffledWords = emptyList())
-        }
+        updateState { copy(shuffledWords = emptyList()) }
     }
 
     private fun updateState(block: UiState.() -> UiState) {
         _uiState.update(block)
     }
+
+    private suspend fun emitUiEffect(uiEffect: UiEffect) {
+        _uiEffect.send(uiEffect)
+    }
+
 }
 
 
