@@ -18,11 +18,14 @@ import com.smtersoyoglu.shuffleandlearncompose.navigation.bottomnav.BottomNavBar
 import com.smtersoyoglu.shuffleandlearncompose.navigation.bottomnav.BottomNavItem
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.aichat.ChatPage
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.learned_words.LearnedWordsScreen
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.learned_words.LearnedWordsViewModel
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.splash.SplashScreen
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.WordDetailScreen
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_detail.WordDetailViewModel
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.WordGameScreen
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_game.WordGameViewModel
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.WordMainScreen
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.WordViewModel
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.BackgroundColor
 
 @Composable
@@ -53,7 +56,6 @@ fun WordNavGraph(modifier: Modifier = Modifier) {
     )
 
 
-
     Scaffold(
         bottomBar = {
             val currentRoute =
@@ -76,24 +78,50 @@ fun WordNavGraph(modifier: Modifier = Modifier) {
             }
 
             composable<Screens.WordMainScreen> {
-                WordMainScreen(navController = navController)
+                val viewModel: WordViewModel = hiltViewModel()
+                val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                val uiEffect = viewModel.uiEffect
+                WordMainScreen(
+                    uiState = uiState,
+                    uiAction = viewModel::onAction,
+                    uiEffect = uiEffect,
+                    onNavigateDetail = { wordId ->
+                        navController.navigate(Screens.WordDetailScreen(wordId))
+                    }
+                )
             }
 
             composable<Screens.LearnedWordsScreen> {
-                LearnedWordsScreen(navController = navController)
+                val viewModel: LearnedWordsViewModel = hiltViewModel()
+                val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                val uiEffect = viewModel.uiEffect
+                LearnedWordsScreen(
+                    uiState = uiState,
+                    uiAction = viewModel::onAction,
+                    uiEffect = uiEffect,
+                    onNavigateToLearnedWordDetail = { wordId ->
+                        navController.navigate(Screens.WordDetailScreen(wordId))
+                    }
+                )
             }
 
             composable<Screens.WordGameScreen> {
-                WordGameScreen(navController = navController)
+                val viewModel: WordGameViewModel = hiltViewModel()
+                val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                val uiEffect = viewModel.uiEffect
+                WordGameScreen(
+                    uiState = uiState,
+                    uiAction = viewModel::onAction,
+                    uiEffect = uiEffect,
+                    onNavigateMain = { navController.navigate(Screens.WordMainScreen) }
+                )
             }
 
-            composable<Screens.WordDetailScreen> { backStackEntry ->
-                backStackEntry.arguments?.getInt("wordId") ?: 0
+            composable<Screens.WordDetailScreen> {
                 val viewModel: WordDetailViewModel = hiltViewModel()
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                 val uiEffect = viewModel.uiEffect
                 WordDetailScreen(
-                    navController = navController,
                     uiState = uiState,
                     uiAction = viewModel::onAction,
                     uiEffect = uiEffect,
