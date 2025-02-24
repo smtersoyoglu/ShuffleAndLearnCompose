@@ -9,25 +9,36 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.learned_words.LearnedContract.UiState
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.learned_words.LearnedContract.UiEffect
+import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.learned_words.LearnedContract.UiAction
 import com.smtersoyoglu.shuffleandlearncompose.R
-import com.smtersoyoglu.shuffleandlearncompose.navigation.Screens
+import com.smtersoyoglu.shuffleandlearncompose.common.CollectWithLifecycle
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.learned_words.components.LottieEmptyState
 import com.smtersoyoglu.shuffleandlearncompose.presentation.screens.word_main.components.WordCard
 import com.smtersoyoglu.shuffleandlearncompose.presentation.theme.BackgroundColor
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun LearnedWordsScreen(
-    navController: NavController,
-    learnedWordsViewModel: LearnedWordsViewModel = hiltViewModel()
-) {
-    val learnedWordsState by learnedWordsViewModel.uiState.collectAsState()
+    uiState: UiState,
+    uiAction: (UiAction) -> Unit,
+    uiEffect: Flow<UiEffect>,
+    onNavigateToLearnedWordDetail: (Int) -> Unit,
+
+    ) {
+
+    uiEffect.CollectWithLifecycle { effect ->
+        when (effect) {
+            is UiEffect.NavigateToDetail -> onNavigateToLearnedWordDetail(effect.wordId)
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -35,28 +46,29 @@ fun LearnedWordsScreen(
             .background(BackgroundColor)
     ) {
         when {
-            learnedWordsState.isLoading -> {
+            uiState.isLoading -> {
                 CircularProgressIndicator(modifier = Modifier.fillMaxSize())
             }
 
-            learnedWordsState.error != null -> {
+            uiState.error != null -> {
                 Text(
-                    text = learnedWordsState.error ?: "Unknown error",
+                    text = uiState.error ?: "Unknown error",
                     color = Color.Red,
                     modifier = Modifier.fillMaxSize(),
                     textAlign = TextAlign.Center
                 )
             }
 
-            learnedWordsState.learnedWords.isNotEmpty() -> {
+            uiState.learnedWords.isNotEmpty() -> {
                 LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-                    items(learnedWordsState.learnedWords) { word ->
+                    items(uiState.learnedWords) { word ->
                         WordCard(wordItem = word) {
-                            navController.navigate(Screens.WordDetailScreen(word.id))
+                            uiAction(UiAction.OnWordClicked(word.id))
                         }
                     }
                 }
             }
+
             else -> {
                 LottieEmptyState(
                     lottieResId = R.raw.anim_empty,
@@ -65,4 +77,17 @@ fun LearnedWordsScreen(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LearnedWordsScreenPreview(
+    @PreviewParameter(LearnedWordsPreviewProvider::class) uiState: UiState,
+) {
+   LearnedWordsScreen(
+       uiState = uiState,
+       uiAction = {},
+       uiEffect = emptyFlow(),
+       onNavigateToLearnedWordDetail = {}
+   )
 }
