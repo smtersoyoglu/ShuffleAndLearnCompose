@@ -2,7 +2,7 @@
 
 ShuffleAndLearnCompose is a dynamic and interactive educational mobile application designed to make vocabulary learning enjoyable, effective, and flexible. The app encourages users to learn words in a non-linear way by leveraging a shuffle feature that randomizes the display of vocabulary cards. This ensures users engage with words in different sequences, promoting deeper learning and preventing rote memorization.
 
-Built using modern Android technologies like Jetpack Compose, Room, and Retrofit, the app adheres to Clean Architecture principles for better scalability and maintainability.
+Built using modern Android technologies like Jetpack Compose, Room, and Retrofit, the app adheres to Clean Architecture principles with MVVM and MVI design patterns for better scalability and maintainability.
 
 ---
 
@@ -76,7 +76,7 @@ Built using modern Android technologies like Jetpack Compose, Room, and Retrofit
 
 ## Project Architecture
 
-The app follows **Clean Architecture** principles, ensuring separation of concerns and better maintainability.
+The app follows Clean Architecture principles, ensuring separation of concerns and better maintainability. It utilizes both MVVM (Model-View-ViewModel) and MVI (Model-View-Intent) patterns to manage UI state, user interactions, and side effects in a scalable and testable way.
 
 ### Clean Architecture
 - **Layered Architecture:** The app follows Clean Architecture with three main layers:
@@ -84,6 +84,36 @@ The app follows **Clean Architecture** principles, ensuring separation of concer
   - Domain Layer: Use cases and business logic.
   - Data Layer: Repositories for API and Room interactions.
 - **Dependency Injection:** All dependencies are managed using Hilt for modular and testable code.
+
+### MVVM Implementation
+
+The app leverages MVVM (Model-View-ViewModel) for its core architecture:
+-  View: Renders UI using Jetpack Compose, observing state from ViewModels.
+-  ViewModel: Manages UI state and business logic, exposing data to the View.
+-  Model: Represents data and business rules, independent of the UI.
+
+### MVI Integration
+
+To enhance the management of user interactions and side effects (e.g., navigation), the app integrates Model-View-Intent (MVI) architecture alongside MVVM. MVI introduces the following components:
+-  UiState: Represents the immutable UI state of each screen (e.g., loading state, word list).
+-  UiAction: A sealed class that handles user actions (e.g., clicking a word, shuffling cards).
+-  UiEffect: A sealed class for one-time side effects (e.g., navigation, toast messages).
+
+
+#### Screens Enhanced with MVI
+
+-  WordDetailScreen: Uses DetailContract to define UiState, UiAction, and UiEffect. The WordDetailViewModel processes actions and emits effects.
+-  WordMainScreen: Manages shuffle and reset operations through WordContract. Navigation is controlled via UiEffect.
+-  WordGameScreen: Game logic and state are handled with GameContract.
+-  LearnedWordsScreen: Displays learned words and navigation through LearnedContract.
+
+
+#### Benefits of MVI
+
+-  Centralized State Management: Each screen's state is managed immutably with UiState.
+-  Decoupled Navigation: Navigation triggers are handled via UiEffect, ensuring the UI only renders state.
+-  Improved Error Handling: Network and database operations are wrapped with safeFlow and safeCall.
+-  Testability: Added PreviewProvider for each screen to support composable previews.
 
 ---
 
